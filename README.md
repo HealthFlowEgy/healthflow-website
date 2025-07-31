@@ -16,7 +16,7 @@ Professional healthcare RegTech website built with React, Tailwind CSS, and shad
 - **Frontend**: React 18+, Tailwind CSS, shadcn/ui
 - **Build Tool**: Vite
 - **Package Manager**: pnpm
-- **Deployment**: Google Cloud Run with Docker
+- **Deployment**: DigitalOcean App Platform
 - **CI/CD**: GitHub Actions
 
 ## 📦 Installation
@@ -40,107 +40,77 @@ pnpm run build
 
 ### Automatic Deployment (CI/CD)
 
-The website automatically deploys to Google Cloud Run when code is pushed to the `main` branch.
+The website automatically deploys to DigitalOcean App Platform when code is pushed to the `main` branch.
 
 #### Required GitHub Secrets:
 
-1. **GCP_PROJECT_ID**: Your Google Cloud Project ID
-2. **GCP_SA_KEY**: Service Account JSON key with the following permissions:
-   - Cloud Build Editor
-   - Cloud Run Admin
-   - Storage Admin
-   - DNS Administrator
+1. **DIGITALOCEAN_ACCESS_TOKEN**: Your DigitalOcean API token
+2. **SSH_KEY_CONTENT**: SSH key content for secure deployments
 
 #### Setup Instructions:
 
-1. **Create Google Cloud Service Account**:
-   ```bash
-   # Create service account
-   gcloud iam service-accounts create healthflow-deployer \
-     --description="Service account for Healthflow website deployment" \
-     --display-name="Healthflow Deployer"
+### 1. **Create DigitalOcean API Token**
 
-   # Grant necessary permissions
-   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-     --member="serviceAccount:healthflow-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-     --role="roles/cloudbuild.builds.editor"
+1. Go to [DigitalOcean Control Panel](https://cloud.digitalocean.com/account/api/tokens)
+2. Click "Generate New Token"
+3. Name: `Healthflow Deployment`
+4. Scopes: Select "Write" access
+5. Copy the generated token
 
-   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-     --member="serviceAccount:healthflow-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-     --role="roles/run.admin"
+### 2. **Add GitHub Secrets**
 
-   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-     --member="serviceAccount:healthflow-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-     --role="roles/storage.admin"
+1. Go to your GitHub repository: https://github.com/HealthFlowEgy/healthflow-website
+2. Click "Settings" → "Secrets and variables" → "Actions"
+3. Click "New repository secret"
 
-   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-     --member="serviceAccount:healthflow-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
-     --role="roles/dns.admin"
+**Add these secrets:**
 
-   # Create and download service account key
-   gcloud iam service-accounts keys create key.json \
-     --iam-account=healthflow-deployer@YOUR_PROJECT_ID.iam.gserviceaccount.com
-   ```
+**Secret 1:**
+- Name: `DIGITALOCEAN_ACCESS_TOKEN`
+- Value: `[Your DigitalOcean API Token]`
 
-2. **Add GitHub Secrets**:
-   - Go to GitHub repository → Settings → Secrets and variables → Actions
-   - Add `GCP_PROJECT_ID` with your Google Cloud Project ID
-   - Add `GCP_SA_KEY` with the contents of the service account JSON key
+**Secret 2:**
+- Name: `SSH_KEY_CONTENT`
+- Value: `[Your SSH Key Content]`
 
-3. **Enable Required APIs**:
-   ```bash
-   gcloud services enable cloudbuild.googleapis.com
-   gcloud services enable run.googleapis.com
-   gcloud services enable containerregistry.googleapis.com
-   ```
+### 3. **Deploy to DigitalOcean App Platform**
 
-### Manual Deployment
+#### Option A: Automatic Deployment (Recommended)
+1. Push any change to the `main` branch
+2. GitHub Actions will automatically build and deploy
+3. Check the "Actions" tab to monitor deployment progress
 
-```bash
-# Build Docker image
-docker build -t gcr.io/YOUR_PROJECT_ID/healthflow-website .
+#### Option B: Manual Deployment via DigitalOcean Dashboard
+1. Go to [DigitalOcean Apps](https://cloud.digitalocean.com/apps)
+2. Click "Create App"
+3. Choose "GitHub" as source
+4. Select repository: `HealthFlowEgy/healthflow-website`
+5. Branch: `main`
+6. Auto-deploy: Enable
+7. Use the provided `.do/app.yaml` configuration
 
-# Push to Google Container Registry
-docker push gcr.io/YOUR_PROJECT_ID/healthflow-website
+### 4. **Configure Custom Domain**
 
-# Deploy to Cloud Run
-gcloud run deploy healthflow-website \
-  --image gcr.io/YOUR_PROJECT_ID/healthflow-website \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --port 80
-```
+1. In DigitalOcean App Platform dashboard
+2. Go to your app → "Settings" → "Domains"
+3. Click "Add Domain"
+4. Enter: `healthflow.tech`
+5. Add alias: `www.healthflow.tech`
+6. DigitalOcean will provide DNS records
 
-## 🌐 Custom Domain Setup
+### 5. **Update DNS Records**
 
-### 1. Map Custom Domain to Cloud Run
-
-```bash
-# Map domain to Cloud Run service
-gcloud run domain-mappings create \
-  --service healthflow-website \
-  --domain healthflow.tech \
-  --region us-central1
-```
-
-### 2. Configure DNS Records
-
-Add the following DNS records to your domain registrar:
+Add these records to your domain registrar:
 
 ```
-Type: CNAME
-Name: www
-Value: ghs.googlehosted.com
-
 Type: A
 Name: @
-Value: [IP addresses provided by Google Cloud]
+Value: [IP provided by DigitalOcean]
+
+Type: CNAME
+Name: www
+Value: [CNAME provided by DigitalOcean]
 ```
-
-### 3. Verify Domain Ownership
-
-Follow the domain verification process in Google Cloud Console.
 
 ## 📁 Project Structure
 
@@ -153,9 +123,8 @@ healthflow-website/
 │   ├── main.jsx               # Application entry point
 │   └── index.css              # Global styles
 ├── .github/workflows/          # GitHub Actions CI/CD
+├── .do/                        # DigitalOcean App Platform config
 ├── public/                     # Public static files
-├── Dockerfile                  # Docker configuration
-├── nginx.conf                 # Nginx configuration
 └── package.json               # Dependencies and scripts
 ```
 
@@ -183,17 +152,13 @@ healthflow-website/
 - **Website**: https://healthflow.tech
 - **Location**: Cairo, Egypt
 
-## 📄 License
+## 💰 Cost Estimation
 
-© 2025 Healthflow. All rights reserved. Leading Egypt's healthcare digital transformation.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### DigitalOcean App Platform Pricing:
+- **Basic Static Site**: $0/month (512MB RAM, 1GB bandwidth)
+- **Pro Static Site**: $5/month (1GB RAM, 100GB bandwidth)
+- **Custom Domain**: Free
+- **SSL Certificate**: Free (automatic)
 
 ## 🔧 Development
 
@@ -217,12 +182,53 @@ VITE_CONTACT_EMAIL=info@healthflow.tech
 
 ### Common Issues
 
-1. **Build Failures**: Ensure all dependencies are installed with `pnpm install`
-2. **Deployment Issues**: Check GitHub Secrets are properly configured
-3. **Domain Issues**: Verify DNS records and domain verification
-4. **SSL Issues**: Google Cloud automatically provisions SSL certificates
+1. **Build Failures**: 
+   - Ensure all dependencies are installed with `pnpm install`
+   - Check build logs in GitHub Actions
 
-### Support
+2. **Deployment Issues**: 
+   - Verify GitHub Secrets are properly configured
+   - Check DigitalOcean App Platform logs
 
-For technical support, please contact the development team or create an issue in this repository.
+3. **Domain Issues**: 
+   - Verify DNS records are correctly configured
+   - Allow 24-48 hours for DNS propagation
+
+4. **SSL Issues**: 
+   - DigitalOcean automatically provisions SSL certificates
+   - Ensure domain is properly verified
+
+### Deployment Status
+
+Check deployment status:
+- **GitHub Actions**: Repository → Actions tab
+- **DigitalOcean**: Apps dashboard → Your app → Activity tab
+
+## 🔄 CI/CD Pipeline
+
+The automated deployment pipeline:
+
+1. **Trigger**: Push to `main` branch
+2. **Build**: Install dependencies and build React app
+3. **Deploy**: Deploy to DigitalOcean App Platform
+4. **Domain**: Automatic SSL and domain configuration
+
+## 📄 License
+
+© 2025 Healthflow. All rights reserved. Leading Egypt's healthcare digital transformation.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🆘 Support
+
+For technical support:
+- Create an issue in this repository
+- Contact: info@healthflow.tech
+- Documentation: [DigitalOcean App Platform Docs](https://docs.digitalocean.com/products/app-platform/)
 
