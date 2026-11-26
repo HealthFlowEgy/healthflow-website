@@ -33,6 +33,7 @@ import './App.css'
 import healthflowLogo from './assets/healthflow_logo.png'
 import bimalabLogo from './assets/partners/bimalab.png'
 import edaLogo from './assets/partners/eda.png'
+import emsLogo from './assets/partners/ems.png'
 import fedisLogo from './assets/partners/fedis.png'
 import fsdLogo from './assets/partners/fsd-africa.png'
 import iqviaLogo from './assets/partners/iqvia.svg'
@@ -56,7 +57,7 @@ const solutionIcons = {
 }
 
 // Official logo files, keyed by partner `key` in the content files.
-// To add one (e.g. the Medical Syndicate), drop the file in
+// To add one, drop the file in
 // src/assets/partners, import it here and add it to this map.
 const partnerLogos = {
   microsoft: microsoftLogo,
@@ -65,9 +66,13 @@ const partnerLogos = {
   lean: leanLogo,
   itqan: itqanLogo,
   eda: edaLogo,
+  ems: emsLogo,
   bimalab: bimalabLogo,
   fsd: fsdLogo,
 }
+
+// Square seals read smaller than wordmarks at the same height.
+const squareLogos = new Set(['ems'])
 
 const stakeholderIcons = [Landmark, Stethoscope, UserRound, Receipt]
 const siloIcons = [Users, Fingerprint, Network, Eye]
@@ -766,7 +771,7 @@ function About() {
                 title={p.name}
               >
                 {partnerLogos[p.key] ? (
-                  <img src={partnerLogos[p.key]} alt={p.name} loading="lazy" className="max-h-11 w-auto max-w-full object-contain" />
+                  <img src={partnerLogos[p.key]} alt={p.name} loading="lazy" className={`${squareLogos.has(p.key) ? 'max-h-16' : 'max-h-11'} w-auto max-w-full object-contain`} />
                 ) : (
                   <span className="text-center font-serif text-base font-semibold leading-snug text-slate-500">{p.name}</span>
                 )}
