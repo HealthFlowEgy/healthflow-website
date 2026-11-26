@@ -118,3 +118,28 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --color-navy-950: #060f24;
+  --color-navy-900: #0a1a3d;
+  --color-navy-800: #102552;
+  --color-navy-700: #1b3470;
+  --color-brand: #25366f;
+  --color-gold: #b78f30;
+  --color-gold-light: #d8b65f;
+  --color-teal: #14a08f;
+  --color-teal-light: #3fd0bd;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-arabic: "Cairo", "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
