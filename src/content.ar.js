@@ -289,12 +289,12 @@ export const partners = [
 ]
 
 export const team = [
-  { initials: 'HA', name: 'د. هشام عبد الغفار', role: 'رئيس مجلس الإدارة ومسؤول الاستثمار', url: 'https://www.linkedin.com/in/heshamabdelghaffar/' },
-  { initials: 'AS', name: 'د. أحمد صفوت', role: 'نائب رئيس مجلس الإدارة والرئيس التنفيذي المشارك', url: 'https://www.linkedin.com/in/ahmed-safwat-921248206/' },
-  { initials: 'AB', name: 'د. عمرو بكر', role: 'المؤسس والرئيس التنفيذي للمجموعة', url: 'https://www.linkedin.com/in/amr-bakr-94212b48/' },
-  { initials: 'AA', name: 'أحمد عادل', role: 'رئيس قطاع المعلومات', url: 'https://www.linkedin.com/in/aabakr/' },
-  { initials: 'HE', name: 'حسن السكري', role: 'كبير المستشارين التقنيين', url: 'https://www.linkedin.com/in/hassan-elsokkary-bb526333/' },
-  { initials: 'MS', name: 'محمد صالح', role: 'كبير المستشارين التجاريين', url: 'https://www.linkedin.com/in/mohammed-saleh-ab89024b/' },
+  { initials: 'HA', photo: 'hesham-abdelghaffar', name: 'د. هشام عبد الغفار', role: 'رئيس مجلس الإدارة ومسؤول الاستثمار', url: 'https://www.linkedin.com/in/heshamabdelghaffar/' },
+  { initials: 'AS', photo: 'ahmed-safwat', name: 'د. أحمد صفوت', role: 'نائب رئيس مجلس الإدارة والرئيس التنفيذي المشارك', url: 'https://www.linkedin.com/in/ahmed-safwat-921248206/' },
+  { initials: 'AB', photo: 'amr-bakr', name: 'د. عمرو بكر', role: 'المؤسس والرئيس التنفيذي للمجموعة', url: 'https://www.linkedin.com/in/amr-bakr-94212b48/' },
+  { initials: 'AA', photo: 'ahmed-adel', name: 'أحمد عادل', role: 'رئيس قطاع المعلومات', url: 'https://www.linkedin.com/in/aabakr/' },
+  { initials: 'HE', photo: 'hassan-elsokkary', name: 'حسن السكري', role: 'كبير المستشارين التقنيين', url: 'https://www.linkedin.com/in/hassan-elsokkary-bb526333/' },
+  { initials: 'MS', photo: 'mohammed-saleh', name: 'محمد صالح', role: 'كبير المستشارين التجاريين', url: 'https://www.linkedin.com/in/mohammed-saleh-ab89024b/' },
 ]
 
 export const meta = {
