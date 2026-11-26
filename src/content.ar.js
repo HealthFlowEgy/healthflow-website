@@ -278,6 +278,9 @@ export const nationalPartner = 'FEDIS'
 
 export const partners = [
   { key: 'microsoft', name: 'Microsoft' },
+  { key: 'orange', name: 'أورنج مصر' },
+  { key: 'iqvia', name: 'IQVIA' },
+  { key: 'lean', name: 'لين (السعودية)' },
   { key: 'eda', name: 'هيئة الدواء المصرية' },
   { key: 'ems', name: 'نقابة أطباء مصر' },
   { key: 'bimalab', name: 'BimaLab Africa' },

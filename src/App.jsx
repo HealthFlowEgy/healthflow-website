@@ -35,7 +35,10 @@ import bimalabLogo from './assets/partners/bimalab.png'
 import edaLogo from './assets/partners/eda.png'
 import fedisLogo from './assets/partners/fedis.png'
 import fsdLogo from './assets/partners/fsd-africa.png'
+import iqviaLogo from './assets/partners/iqvia.svg'
+import leanLogo from './assets/partners/lean.svg'
 import microsoftLogo from './assets/partners/microsoft.svg'
+import orangeLogo from './assets/partners/orange.svg'
 import { LANGS, LangContext, applyDocumentLang, content, initialLang, persistLang, useLang } from './i18n.js'
 
 const solutionIcons = {
@@ -56,6 +59,9 @@ const solutionIcons = {
 // src/assets/partners, import it here and add it to this map.
 const partnerLogos = {
   microsoft: microsoftLogo,
+  orange: orangeLogo,
+  iqvia: iqviaLogo,
+  lean: leanLogo,
   eda: edaLogo,
   bimalab: bimalabLogo,
   fsd: fsdLogo,
@@ -750,11 +756,11 @@ function About() {
           <p className="mt-12 text-center text-xs font-semibold tracking-[0.25em] text-gold uppercase">
             {c.ui.partners}
           </p>
-          <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <ul className="mt-6 flex flex-wrap justify-center gap-4">
             {c.partners.map((p) => (
               <li
                 key={p.key}
-                className="flex h-24 items-center justify-center rounded-xl border border-slate-200 bg-white px-4"
+                className="flex h-24 w-[calc(50%-0.5rem)] items-center justify-center rounded-xl border border-slate-200 bg-white px-4 sm:w-48"
                 title={p.name}
               >
                 {partnerLogos[p.key] ? (

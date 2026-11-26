@@ -282,6 +282,9 @@ export const nationalPartner = 'FEDIS'
 // partners without a logo file are shown by name.
 export const partners = [
   { key: 'microsoft', name: 'Microsoft' },
+  { key: 'orange', name: 'Orange Egypt' },
+  { key: 'iqvia', name: 'IQVIA' },
+  { key: 'lean', name: 'Lean (KSA)' },
   { key: 'eda', name: 'Egyptian Drug Authority' },
   { key: 'ems', name: 'Egyptian Medical Syndicate' },
   { key: 'bimalab', name: 'BimaLab Africa' },
