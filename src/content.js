@@ -278,12 +278,18 @@ export const roadmap = [
 
 export const nationalPartner = 'FEDIS'
 
+// `key` matches a logo in src/assets/partners (see partnerLogos in App.jsx);
+// partners without a logo file are shown by name.
 export const partners = [
-  'Microsoft',
-  'ITQAN',
-  'BimaLab Africa',
-  'Egyptian Medical Syndicate',
-  'FSD Africa',
+  { key: 'microsoft', name: 'Microsoft' },
+  { key: 'orange', name: 'Orange Egypt' },
+  { key: 'iqvia', name: 'IQVIA' },
+  { key: 'lean', name: 'Lean (KSA)' },
+  { key: 'eda', name: 'Egyptian Drug Authority' },
+  { key: 'ems', name: 'Egyptian Medical Syndicate' },
+  { key: 'bimalab', name: 'BimaLab Africa' },
+  { key: 'fsd', name: 'FSD Africa' },
+  { key: 'itqan', name: 'ITQAN' },
 ]
 
 export const team = [

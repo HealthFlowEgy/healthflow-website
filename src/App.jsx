@@ -31,6 +31,16 @@ import {
 } from 'lucide-react'
 import './App.css'
 import healthflowLogo from './assets/healthflow_logo.png'
+import bimalabLogo from './assets/partners/bimalab.png'
+import edaLogo from './assets/partners/eda.png'
+import emsLogo from './assets/partners/ems.png'
+import fedisLogo from './assets/partners/fedis.png'
+import fsdLogo from './assets/partners/fsd-africa.png'
+import iqviaLogo from './assets/partners/iqvia.svg'
+import itqanLogo from './assets/partners/itqan.png'
+import leanLogo from './assets/partners/lean.svg'
+import microsoftLogo from './assets/partners/microsoft.svg'
+import orangeLogo from './assets/partners/orange.svg'
 import { LANGS, LangContext, applyDocumentLang, content, initialLang, persistLang, useLang } from './i18n.js'
 
 const solutionIcons = {
@@ -45,6 +55,24 @@ const solutionIcons = {
   itqan: BadgeCheck,
   regtech: ShieldCheck,
 }
+
+// Official logo files, keyed by partner `key` in the content files.
+// To add one, drop the file in
+// src/assets/partners, import it here and add it to this map.
+const partnerLogos = {
+  microsoft: microsoftLogo,
+  orange: orangeLogo,
+  iqvia: iqviaLogo,
+  lean: leanLogo,
+  itqan: itqanLogo,
+  eda: edaLogo,
+  ems: emsLogo,
+  bimalab: bimalabLogo,
+  fsd: fsdLogo,
+}
+
+// Square seals read smaller than wordmarks at the same height.
+const squareLogos = new Set(['ems'])
 
 const stakeholderIcons = [Landmark, Stethoscope, UserRound, Receipt]
 const siloIcons = [Users, Fingerprint, Network, Eye]
@@ -730,18 +758,26 @@ function About() {
         <div className="mt-20">
           <div className="mx-auto flex max-w-md flex-col items-center rounded-2xl border border-gold/40 bg-gold/5 px-8 py-6 text-center">
             <p className="text-xs font-semibold tracking-[0.25em] text-gold uppercase">{c.ui.nationalPartner}</p>
-            <p className="mt-2 font-latin text-3xl font-bold text-navy-900">{c.nationalPartner}</p>
+            <img src={fedisLogo} alt={c.nationalPartner} className="mt-4 h-16 w-auto" />
           </div>
           <p className="mt-12 text-center text-xs font-semibold tracking-[0.25em] text-gold uppercase">
             {c.ui.partners}
           </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          <ul className="mt-6 flex flex-wrap justify-center gap-4">
             {c.partners.map((p) => (
-              <span key={p} className="font-serif text-xl font-semibold text-slate-400">
-                {p}
-              </span>
+              <li
+                key={p.key}
+                className="flex h-24 w-[calc(50%-0.5rem)] items-center justify-center rounded-xl border border-slate-200 bg-white px-4 sm:w-48"
+                title={p.name}
+              >
+                {partnerLogos[p.key] ? (
+                  <img src={partnerLogos[p.key]} alt={p.name} loading="lazy" className={`${squareLogos.has(p.key) ? 'max-h-16' : 'max-h-11'} w-auto max-w-full object-contain`} />
+                ) : (
+                  <span className="text-center font-serif text-base font-semibold leading-snug text-slate-500">{p.name}</span>
+                )}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
