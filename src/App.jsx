@@ -56,6 +56,15 @@ const solutionIcons = {
   regtech: ShieldCheck,
 }
 
+// Team photos: drop src/assets/team/<photo>.(jpg|png|webp), where <photo>
+// is the member's `photo` key in the content files. Missing photos fall
+// back to initials.
+const teamPhotos = Object.fromEntries(
+  Object.entries(import.meta.glob('./assets/team/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' })).map(
+    ([path, url]) => [path.split('/').pop().replace(/\.[^.]+$/, ''), url],
+  ),
+)
+
 // Official logo files, keyed by partner `key` in the content files.
 // To add one, drop the file in
 // src/assets/partners, import it here and add it to this map.
@@ -741,9 +750,18 @@ function About() {
               rel="noopener noreferrer"
               className="group flex items-center gap-5 rounded-2xl border border-slate-200 p-6 transition hover:border-gold/60 hover:shadow-md"
             >
-              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-navy-900 font-latin text-xl font-bold text-gold-light">
-                {m.initials}
-              </span>
+              {teamPhotos[m.photo] ? (
+                <img
+                  src={teamPhotos[m.photo]}
+                  alt={m.name}
+                  loading="lazy"
+                  className="h-16 w-16 shrink-0 rounded-full border-2 border-gold object-cover"
+                />
+              ) : (
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-navy-900 font-latin text-xl font-bold text-gold-light">
+                  {m.initials}
+                </span>
+              )}
               <div className="min-w-0">
                 <p className="font-serif text-lg font-semibold text-navy-900">{m.name}</p>
                 <p className="text-sm text-slate-600">{m.role}</p>

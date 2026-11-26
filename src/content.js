@@ -293,12 +293,12 @@ export const partners = [
 ]
 
 export const team = [
-  { initials: 'HA', name: 'Dr. Hesham Abdelghaffar', role: 'Chairman of the Board & Investment Officer', url: 'https://www.linkedin.com/in/heshamabdelghaffar/' },
-  { initials: 'AS', name: 'Dr. Ahmed Safwat', role: 'Vice-Chairman & Executive Co-CEO', url: 'https://www.linkedin.com/in/ahmed-safwat-921248206/' },
-  { initials: 'AB', name: 'Dr. Amr Bakr', role: 'Founder & Group CEO', url: 'https://www.linkedin.com/in/amr-bakr-94212b48/' },
-  { initials: 'AA', name: 'Ahmed Adel', role: 'Chief Information Officer', url: 'https://www.linkedin.com/in/aabakr/' },
-  { initials: 'HE', name: 'Hassan Elsokkary', role: 'Chief Technology Advisor', url: 'https://www.linkedin.com/in/hassan-elsokkary-bb526333/' },
-  { initials: 'MS', name: 'Mohammed Saleh', role: 'Chief Commercial Advisor', url: 'https://www.linkedin.com/in/mohammed-saleh-ab89024b/' },
+  { initials: 'HA', photo: 'hesham-abdelghaffar', name: 'Dr. Hesham Abdelghaffar', role: 'Chairman of the Board & Investment Officer', url: 'https://www.linkedin.com/in/heshamabdelghaffar/' },
+  { initials: 'AS', photo: 'ahmed-safwat', name: 'Dr. Ahmed Safwat', role: 'Vice-Chairman & Executive Co-CEO', url: 'https://www.linkedin.com/in/ahmed-safwat-921248206/' },
+  { initials: 'AB', photo: 'amr-bakr', name: 'Dr. Amr Bakr', role: 'Founder & Group CEO', url: 'https://www.linkedin.com/in/amr-bakr-94212b48/' },
+  { initials: 'AA', photo: 'ahmed-adel', name: 'Ahmed Adel', role: 'Chief Information Officer', url: 'https://www.linkedin.com/in/aabakr/' },
+  { initials: 'HE', photo: 'hassan-elsokkary', name: 'Hassan Elsokkary', role: 'Chief Technology Advisor', url: 'https://www.linkedin.com/in/hassan-elsokkary-bb526333/' },
+  { initials: 'MS', photo: 'mohammed-saleh', name: 'Mohammed Saleh', role: 'Chief Commercial Advisor', url: 'https://www.linkedin.com/in/mohammed-saleh-ab89024b/' },
 ]
 
 export const meta = {
