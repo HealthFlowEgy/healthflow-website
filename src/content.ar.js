@@ -276,7 +276,14 @@ export const roadmap = [
 
 export const nationalPartner = 'FEDIS'
 
-export const partners = ['Microsoft', 'إتقان', 'BimaLab Africa', 'نقابة الأطباء', 'FSD Africa']
+export const partners = [
+  { key: 'microsoft', name: 'Microsoft' },
+  { key: 'eda', name: 'هيئة الدواء المصرية' },
+  { key: 'ems', name: 'نقابة أطباء مصر' },
+  { key: 'bimalab', name: 'BimaLab Africa' },
+  { key: 'fsd', name: 'FSD Africa' },
+  { key: 'itqan', name: 'إتقان' },
+]
 
 export const team = [
   { initials: 'HA', name: 'د. هشام عبد الغفار', role: 'رئيس مجلس الإدارة ومسؤول الاستثمار', url: 'https://www.linkedin.com/in/heshamabdelghaffar/' },

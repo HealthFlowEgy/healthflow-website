@@ -31,6 +31,11 @@ import {
 } from 'lucide-react'
 import './App.css'
 import healthflowLogo from './assets/healthflow_logo.png'
+import bimalabLogo from './assets/partners/bimalab.png'
+import edaLogo from './assets/partners/eda.png'
+import fedisLogo from './assets/partners/fedis.png'
+import fsdLogo from './assets/partners/fsd-africa.png'
+import microsoftLogo from './assets/partners/microsoft.svg'
 import { LANGS, LangContext, applyDocumentLang, content, initialLang, persistLang, useLang } from './i18n.js'
 
 const solutionIcons = {
@@ -44,6 +49,16 @@ const solutionIcons = {
   ai: Brain,
   itqan: BadgeCheck,
   regtech: ShieldCheck,
+}
+
+// Official logo files, keyed by partner `key` in the content files.
+// To add one (e.g. ITQAN or the Medical Syndicate), drop the file in
+// src/assets/partners, import it here and add it to this map.
+const partnerLogos = {
+  microsoft: microsoftLogo,
+  eda: edaLogo,
+  bimalab: bimalabLogo,
+  fsd: fsdLogo,
 }
 
 const stakeholderIcons = [Landmark, Stethoscope, UserRound, Receipt]
@@ -730,18 +745,26 @@ function About() {
         <div className="mt-20">
           <div className="mx-auto flex max-w-md flex-col items-center rounded-2xl border border-gold/40 bg-gold/5 px-8 py-6 text-center">
             <p className="text-xs font-semibold tracking-[0.25em] text-gold uppercase">{c.ui.nationalPartner}</p>
-            <p className="mt-2 font-latin text-3xl font-bold text-navy-900">{c.nationalPartner}</p>
+            <img src={fedisLogo} alt={c.nationalPartner} className="mt-4 h-16 w-auto" />
           </div>
           <p className="mt-12 text-center text-xs font-semibold tracking-[0.25em] text-gold uppercase">
             {c.ui.partners}
           </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {c.partners.map((p) => (
-              <span key={p} className="font-serif text-xl font-semibold text-slate-400">
-                {p}
-              </span>
+              <li
+                key={p.key}
+                className="flex h-24 items-center justify-center rounded-xl border border-slate-200 bg-white px-4"
+                title={p.name}
+              >
+                {partnerLogos[p.key] ? (
+                  <img src={partnerLogos[p.key]} alt={p.name} loading="lazy" className="max-h-11 w-auto max-w-full object-contain" />
+                ) : (
+                  <span className="text-center font-serif text-base font-semibold leading-snug text-slate-500">{p.name}</span>
+                )}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
