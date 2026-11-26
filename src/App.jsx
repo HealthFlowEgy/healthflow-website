@@ -36,6 +36,7 @@ import edaLogo from './assets/partners/eda.png'
 import fedisLogo from './assets/partners/fedis.png'
 import fsdLogo from './assets/partners/fsd-africa.png'
 import iqviaLogo from './assets/partners/iqvia.svg'
+import itqanLogo from './assets/partners/itqan.png'
 import leanLogo from './assets/partners/lean.svg'
 import microsoftLogo from './assets/partners/microsoft.svg'
 import orangeLogo from './assets/partners/orange.svg'
@@ -55,13 +56,14 @@ const solutionIcons = {
 }
 
 // Official logo files, keyed by partner `key` in the content files.
-// To add one (e.g. ITQAN or the Medical Syndicate), drop the file in
+// To add one (e.g. the Medical Syndicate), drop the file in
 // src/assets/partners, import it here and add it to this map.
 const partnerLogos = {
   microsoft: microsoftLogo,
   orange: orangeLogo,
   iqvia: iqviaLogo,
   lean: leanLogo,
+  itqan: itqanLogo,
   eda: edaLogo,
   bimalab: bimalabLogo,
   fsd: fsdLogo,
