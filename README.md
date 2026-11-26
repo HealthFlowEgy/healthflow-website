@@ -43,6 +43,18 @@ Vercel deploys automatically from GitHub, using `vercel.json`:
 
 There is no other deploy pipeline. Roll back from the Vercel dashboard (Deployments → Promote / Instant Rollback).
 
+## Analytics
+
+Google Analytics 4 is built in but stays off until a measurement ID is configured:
+
+1. Create a GA4 property and web data stream for `healthflow.tech` at analytics.google.com and copy its measurement ID (`G-…`).
+2. In Vercel → Project → Settings → Environment Variables, add `VITE_GA_MEASUREMENT_ID` = that ID for **Production**.
+3. Redeploy (Deployments → … → Redeploy).
+
+Visitors then see a bilingual consent banner. GA only loads after **Accept** (in line with PDPL 151/2020), and the
+choice can be changed from **Cookie settings** in the footer. Events sent: page views, `language_change`,
+`contact_open` and `generate_lead` (contact form sent). The code is in `src/analytics.js`.
+
 ## Contact
 
 info@healthflow.tech · +20 111 004 7666 · Cairo, Egypt

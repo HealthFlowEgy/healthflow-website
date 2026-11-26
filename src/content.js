@@ -416,4 +416,10 @@ export const ui = {
   mailEmail: 'Email',
   mailOrg: 'Organisation',
   mailRole: 'I am a',
+  consentText:
+    'We use Google Analytics cookies to understand how visitors use this site. They are only set if you accept, and you can change your choice at any time.',
+  consentAccept: 'Accept',
+  consentDecline: 'Decline',
+  consentLabel: 'Cookie consent',
+  cookieSettings: 'Cookie settings',
 }

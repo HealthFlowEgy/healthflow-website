@@ -41,6 +41,7 @@ import itqanLogo from './assets/partners/itqan.png'
 import leanLogo from './assets/partners/lean.svg'
 import microsoftLogo from './assets/partners/microsoft.svg'
 import orangeLogo from './assets/partners/orange.svg'
+import { analyticsEnabled, getConsent, initAnalytics, setConsent, track } from './analytics.js'
 import { LANGS, LangContext, applyDocumentLang, content, initialLang, persistLang, useLang } from './i18n.js'
 
 const solutionIcons = {
@@ -125,7 +126,11 @@ function LangToggle({ dark = false, className = '' }) {
   const { lang, c, setLang } = useLang()
   return (
     <button
-      onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
+      onClick={() => {
+        const next = lang === 'en' ? 'ar' : 'en'
+        track('language_change', { language: next })
+        setLang(next)
+      }}
       aria-label={c.ui.switchLabel}
       lang={lang === 'en' ? 'ar' : 'en'}
       className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold transition ${
@@ -821,7 +826,7 @@ function CTA({ onContact }) {
   )
 }
 
-function Footer() {
+function Footer({ onCookieSettings }) {
   const { c } = useLang()
   const { contact } = c
   const year = new Date().getFullYear()
@@ -866,7 +871,16 @@ function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 px-4 pt-6 text-xs text-slate-500 sm:px-6 lg:px-8">
-        © {year} {c.ui.rights}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span>
+            © {year} {c.ui.rights}
+          </span>
+          {analyticsEnabled && (
+            <button onClick={onCookieSettings} className="underline-offset-2 hover:text-white hover:underline">
+              {c.ui.cookieSettings}
+            </button>
+          )}
+        </div>
       </div>
     </footer>
   )
@@ -895,6 +909,7 @@ function ContactDialog({ open, onClose }) {
     const subject = `${ui.mailSubject} — ${role} — ${form.name}`
     const body = `${ui.mailName}: ${form.name}\n${ui.mailEmail}: ${form.email}\n${ui.mailOrg}: ${form.company}\n${ui.mailRole}: ${role}\n\n${form.message}`
     window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    track('generate_lead', { role })
     setSent(true)
   }
 
@@ -978,10 +993,50 @@ function ContactDialog({ open, onClose }) {
   )
 }
 
+function ConsentBanner({ onChoice }) {
+  const { c } = useLang()
+  return (
+    <div
+      role="dialog"
+      aria-live="polite"
+      aria-label={c.ui.consentLabel}
+      className="fixed inset-x-4 bottom-4 z-[55] mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl sm:flex sm:items-center sm:gap-6"
+    >
+      <p className="text-sm text-slate-700">{c.ui.consentText}</p>
+      <div className="mt-4 flex shrink-0 gap-2 sm:mt-0">
+        <button
+          onClick={() => onChoice('denied')}
+          className="rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-navy-900 hover:bg-slate-100"
+        >
+          {c.ui.consentDecline}
+        </button>
+        <button
+          onClick={() => onChoice('granted')}
+          className="rounded-full bg-gold px-5 py-2 text-sm font-semibold text-navy-950 hover:bg-gold-light"
+        >
+          {c.ui.consentAccept}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [lang, setLangState] = React.useState(initialLang)
   const [contactOpen, setContactOpen] = React.useState(false)
-  const openContact = () => setContactOpen(true)
+  const [showConsent, setShowConsent] = React.useState(() => analyticsEnabled && !getConsent())
+  const openContact = () => {
+    track('contact_open')
+    setContactOpen(true)
+  }
+  const chooseConsent = (value) => {
+    setConsent(value)
+    setShowConsent(false)
+  }
+
+  React.useEffect(() => {
+    initAnalytics()
+  }, [])
 
   React.useEffect(() => {
     applyDocumentLang(lang)
@@ -1018,8 +1073,9 @@ export default function App() {
         <About />
         <CTA onContact={openContact} />
       </main>
-      <Footer />
+      <Footer onCookieSettings={() => setShowConsent(true)} />
       <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} />
+      {showConsent && <ConsentBanner onChoice={chooseConsent} />}
     </div>
     </LangContext.Provider>
   )

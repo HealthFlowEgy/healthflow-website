@@ -410,4 +410,10 @@ export const ui = {
   mailEmail: 'البريد الإلكتروني',
   mailOrg: 'الجهة',
   mailRole: 'أنا أمثّل',
+  consentText:
+    'نستخدم ملفات تعريف الارتباط الخاصة بـ Google Analytics لفهم كيفية استخدام الزوار لهذا الموقع. لا تُفعَّل إلا بموافقتك، ويمكنك تغيير اختيارك في أي وقت.',
+  consentAccept: 'موافق',
+  consentDecline: 'رفض',
+  consentLabel: 'الموافقة على ملفات تعريف الارتباط',
+  cookieSettings: 'إعدادات ملفات تعريف الارتباط',
 }
