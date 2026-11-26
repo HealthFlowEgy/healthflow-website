@@ -28,8 +28,8 @@ export const silos = [
     text: 'Every HIS, payer and pharmacy keeps its own codes. Legacy HL7 v2, batch files and paper never reach a shared record.',
   },
   {
-    title: 'Blind payers',
-    text: 'Insurers adjudicate in silos, so phantom prescriptions, duplicate claims and upcoding go undetected.',
+    title: 'No system-wide view',
+    text: 'Ministries, regulators and payers each see only their own slice, so outbreaks are spotted late and duplicate or phantom services go unnoticed.',
   },
 ]
 
@@ -160,12 +160,28 @@ export const solutions = [
   },
 ]
 
+export const costs = [
+  { value: 'Repeated', label: 'tests and lost paper files when patients move between facilities' },
+  { value: 'Unverified', label: 'prescribers, licences and facilities checked by hand' },
+  { value: 'Late', label: 'outbreak detection, with no national, real-time picture' },
+  { value: 'EGP 4B+', label: 'estimated annual loss to fraud, waste and abuse in medical insurance alone' },
+]
+
+export const scenarios = [
+  { title: 'A birth in Sohag', text: 'The newborn gets a golden record linked to the mother, a temporary health ID and a vaccination plan within minutes.' },
+  { title: 'Cairo to Alexandria', text: "One National ID lookup brings up the patient's six-year history. No repeated tests and no lost paper file." },
+  { title: 'Unconscious in the ED', text: 'Break-glass access releases blood type and anticoagulant status in under two minutes, and the access is reviewed within 24 hours.' },
+  { title: 'A dengue cluster in Aswan', text: 'Space-time detection flags a five-neighbourhood cluster on day four and routes tiered alerts with the evidence.' },
+  { title: 'TB household contacts', text: 'A knowledge-graph search schedules screening for household and workplace contacts without revealing the diagnosis.' },
+  { title: 'Decades of paper files', text: 'Arabic OCR and clinical NLP turn paper records into validated FHIR resources with honest provenance.' },
+]
+
 export const flow = [
   { step: 'Patient identified', detail: 'NDPR golden record' },
   { step: 'Prescriber verified', detail: 'HPR · facility registry' },
   { step: 'Script validated', detail: 'AI + EDA formulary' },
-  { step: 'Record shared', detail: 'FHIR R4 · consent-checked' },
-  { step: 'Claim settled', detail: 'HFCX · E-CLAIMS' },
+  { step: 'Dispensed & recorded', detail: 'Pharmacy · shared FHIR record' },
+  { step: 'Coverage applied', detail: 'E-CLAIMS · HFCX' },
 ]
 
 export const hieAgents = [
@@ -196,10 +212,10 @@ export const stakeholders = [
   {
     title: 'Government & regulators',
     ar: 'الحكومة والجهات الرقابية',
-    points: ['National dashboards for MoHP, UHIA and FRA', 'Public-health surveillance & outbreak alerts', 'Standardised, auditable data', 'Sovereign control of national health data'],
+    points: ['National dashboards for MoHP and regulators', 'Public-health surveillance & outbreak alerts', 'Standardised, auditable data', 'Sovereign control of national health data'],
   },
   {
-    title: 'Healthcare providers',
+    title: 'Hospitals, clinics, pharmacies & labs',
     ar: 'مقدمو الخدمة',
     points: ['The patient’s history, wherever they were treated', 'Connect as you are: FHIR, HL7 v2 or batch', 'Eligibility & limits at point of service', 'One integration, the whole system'],
   },
@@ -217,18 +233,18 @@ export const stakeholders = [
 
 export const regulators = [
   { code: 'MoHP', name: 'Ministry of Health and Population', text: 'National standards, Digital Egypt 2030 health strategy and governorate-by-governorate rollout.' },
-  { code: 'UHIA', name: 'Universal Health Insurance Authority', text: 'Phased universal-coverage rollout driving digital claims adoption at national scale.' },
+  { code: 'UHIA', name: 'Universal Health Insurance Authority', text: 'Universal health coverage rolling out governorate by governorate, built on digital identity and shared records.' },
   { code: 'EDA', name: 'Egyptian Drug Authority', text: 'National formulary and e-prescription direction already in motion.' },
-  { code: 'FRA', name: 'Financial Regulatory Authority', text: 'Insurance oversight requiring standardised, auditable claims data. HealthFlow is admitted to its regulatory sandbox.' },
+  { code: 'EHC', name: 'Egyptian Health Council', text: 'Central healthcare-professional credentialing and single sign-on, served by the national professional registry.' },
 ]
 
 export const milestones = [
-  { title: 'HFCX live in production', text: 'Claims exchange running on Kubernetes, with the multi-agent AI adjudication layer in production on top.' },
-  { title: 'Provider registry operational', text: 'HPR identity layer live on Sunbird RC with W3C DIDs, built with the Egyptian Medical Syndicate.' },
-  { title: 'FRA regulatory sandbox', text: 'Admitted to the FRA sandbox, the regulated route to market for insurance infrastructure.' },
-  { title: 'BimaLab Africa selection', text: 'Selected for the FSD Africa / Swiss Re Foundation insurtech accelerator programme.' },
-  { title: 'FEDIS strategic partnership', text: 'Executed strategic partnership with FEDIS as the entry point for the first insurer cohort.' },
   { title: 'Digital prescription deployed', text: 'NDP / Rousheta Raqamya exchange deployed, with the AI validation engine checking every script against the EDA formulary.' },
+  { title: 'Professional registry operational', text: 'HPR identity layer live on Sunbird RC with W3C DIDs, built with the Egyptian Medical Syndicate.' },
+  { title: 'Claims exchange in production', text: 'HFCX running on Kubernetes, with the multi-agent AI adjudication layer in production on top.' },
+  { title: 'Interoperability core built', text: 'OpenHIE-based platform with Egypt-specific mediators for National ID validation, Arabic name matching and eligibility.' },
+  { title: 'FEDIS strategic partnership', text: 'Executed strategic partnership with FEDIS.' },
+  { title: 'Regulatory sandbox & BimaLab Africa', text: 'Admitted to the FRA regulatory sandbox, and selected for the FSD Africa / Swiss Re Foundation BimaLab programme.' },
 ]
 
 export const standards = [
@@ -252,9 +268,9 @@ export const security = [
 ]
 
 export const roadmap = [
-  { year: '2026', phase: 'Foundation', text: 'Registries and exchanges in production. First insurer cohort on HFCX and production rollout of digital prescriptions.' },
-  { year: '2027', phase: 'Scale', text: 'UHIA integration, national onboarding of providers and payers, and the patient registry live in pilot governorates.' },
-  { year: '2028', phase: 'National', text: "The default exchange for Egypt's health transactions: shared health record, analytics and public-health intelligence." },
+  { year: '2026', phase: 'Foundation', text: 'Registries and exchanges in production. Digital prescriptions rolling out, with the first hospital, pharmacy and payer cohorts connected.' },
+  { year: '2027', phase: 'Scale', text: 'Patient registry and shared health record live in pilot governorates, UHIA integration and national onboarding of providers.' },
+  { year: '2028', phase: 'National', text: "The default exchange for Egypt's health data, with national analytics and public-health intelligence live." },
   { year: '2029', phase: 'Regional', text: 'The same HIE re-licensed for priority African and MENA markets, not rebuilt.' },
 ]
 

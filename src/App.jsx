@@ -33,6 +33,7 @@ import healthflowLogo from './assets/healthflow_logo.png'
 import {
   agents,
   contact,
+  costs,
   flow,
   governance,
   heroStats,
@@ -44,6 +45,7 @@ import {
   regulators,
   silos,
   roadmap,
+  scenarios,
   security,
   solutions,
   stakeholders,
@@ -75,7 +77,7 @@ const solutionIcons = {
 }
 
 const stakeholderIcons = [Landmark, Stethoscope, UserRound, Receipt]
-const siloIcons = [Users, Fingerprint, Network, Receipt]
+const siloIcons = [Users, Fingerprint, Network, Eye]
 
 const groupStyles = {
   Exchange: 'text-teal bg-teal/10',
@@ -277,7 +279,7 @@ function Problem() {
         <SectionHeading
           eyebrow="The problem"
           title="Egypt's health data lives in silos."
-          intro="Every hospital, payer, pharmacy and registry keeps its own records, codes and identities. Patients repeat tests, prescribers can't be verified, and the system can't see itself, from outbreaks to fraud. An exchange removes the structural conditions behind each of these."
+          intro="Every hospital, clinic, pharmacy, lab, payer and registry keeps its own records, codes and identities. Care, public health, regulation and financing all pay the price. A national exchange removes the structural conditions behind each of these problems."
         />
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2">
@@ -294,16 +296,19 @@ function Problem() {
               )
             })}
           </div>
-          <div className="flex flex-col rounded-2xl bg-navy-900 p-8 text-white">
-            <p className="text-sm font-semibold text-gold-light">The cost of fragmentation, in insurance alone</p>
-            <p className="mt-2 font-serif text-6xl font-bold">EGP 4B+</p>
-            <p className="mt-4 text-slate-300">
-              Estimated annual loss to fraud, waste and abuse across Egypt&apos;s medical insurance market. Most of it
-              is visible only across payers.
-            </p>
-            <p className="mt-auto pt-8 text-xs leading-relaxed text-slate-400">
-              HealthFlow estimate: medical-insurance claims base × the 3–10% FWA range used by NHCAA and the US GAO,
-              taken at the conservative end.
+          <div className="rounded-2xl bg-navy-900 p-8 text-white">
+            <p className="text-sm font-semibold text-gold-light">What fragmentation costs</p>
+            <ul className="mt-5 space-y-5">
+              {costs.map((c) => (
+                <li key={c.value}>
+                  <p className="font-serif text-2xl font-bold">{c.value}</p>
+                  <p className="text-sm text-slate-300">{c.label}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-xs leading-relaxed text-slate-400">
+              FWA estimate: medical-insurance claims base × the 3–10% range used by NHCAA and the US GAO, at the
+              conservative end.
             </p>
           </div>
         </div>
@@ -370,6 +375,31 @@ function Platform() {
               </li>
             ))}
           </ol>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Scenarios() {
+  return (
+    <section className="bg-white pb-20 sm:pb-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-3xl bg-slate-50 p-8 ring-1 ring-slate-200 sm:p-12">
+          <SectionHeading
+            eyebrow="The exchange in action"
+            title="From the delivery room to the outbreak map."
+            intro="Scenarios the national exchange is designed to handle, using one identity, one record and one set of rules across the whole system."
+          />
+          <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
+            {scenarios.map((sc, i) => (
+              <div key={sc.title} className="border-l-2 border-gold pl-5">
+                <p className="text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">0{i + 1}</p>
+                <h3 className="mt-1 font-serif text-lg font-semibold text-navy-900">{sc.title}</h3>
+                <p className="mt-1 text-sm text-slate-600">{sc.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -479,7 +509,7 @@ function AIEngine() {
           dark
           eyebrow="Governed AI"
           title="AI agents at the core of the exchange, under human authority."
-          intro="Specialist agents resolve identities, map terminologies and convert legacy records as data moves across the exchange, and review every claim in seconds. Arabic language models run inside Egypt, and no patient data goes to external APIs."
+          intro="Specialist agents resolve identities, map terminologies, convert legacy records and validate prescriptions as data moves across the exchange, and review claims in seconds. Arabic language models run inside Egypt, and no patient data goes to external APIs."
         />
 
         <div className="mt-10 flex flex-wrap gap-2" role="tablist">
@@ -714,7 +744,7 @@ function CTA({ onContact }) {
         <Network className="mx-auto h-10 w-10 text-gold-light" />
         <h2 className="mt-6 font-serif text-3xl font-bold sm:text-4xl">Connect once. Reach the whole health system.</h2>
         <p className="mt-4 text-lg text-slate-300">
-          We work with government, regulators, hospitals, pharmacies, laboratories, insurers and technology
+          We work with government, regulators, hospitals, clinics, pharmacies, laboratories, payers and technology
           partners. Tell us what you need to connect, and we will show you how it fits on the exchange.
         </p>
         <button
@@ -897,6 +927,7 @@ export default function App() {
         <TrustBar />
         <Problem />
         <Platform />
+        <Scenarios />
         <Solutions />
         <AIEngine />
         <Impact />
