@@ -41,6 +41,7 @@ import {
   hip,
   layers,
   milestones,
+  nationalPartner,
   partners,
   regulators,
   silos,
@@ -721,8 +722,12 @@ function About() {
         </div>
 
         <div className="mt-20">
-          <p className="text-center text-xs font-semibold tracking-[0.25em] text-gold uppercase">
-            Strategic partners & programmes
+          <div className="mx-auto flex max-w-md flex-col items-center rounded-2xl border border-gold/40 bg-gold/5 px-8 py-6 text-center">
+            <p className="text-xs font-semibold tracking-[0.25em] text-gold uppercase">National Strategic Partner</p>
+            <p className="mt-2 font-serif text-3xl font-bold text-navy-900">{nationalPartner}</p>
+          </div>
+          <p className="mt-12 text-center text-xs font-semibold tracking-[0.25em] text-gold uppercase">
+            Partners & programmes
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {partners.map((p) => (

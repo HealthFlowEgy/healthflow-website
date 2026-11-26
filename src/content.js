@@ -243,7 +243,7 @@ export const milestones = [
   { title: 'Professional registry operational', text: 'HPR identity layer live on Sunbird RC with W3C DIDs, built with the Egyptian Medical Syndicate.' },
   { title: 'Claims exchange in production', text: 'HFCX running on Kubernetes, with the multi-agent AI adjudication layer in production on top.' },
   { title: 'Interoperability core built', text: 'OpenHIE-based platform with Egypt-specific mediators for National ID validation, Arabic name matching and eligibility.' },
-  { title: 'FEDIS strategic partnership', text: 'Executed strategic partnership with FEDIS.' },
+  { title: 'FEDIS — National Strategic Partner', text: 'FEDIS is HealthFlow’s national strategic partner, under an executed partnership agreement.' },
   { title: 'Regulatory sandbox & BimaLab Africa', text: 'Admitted to the FRA regulatory sandbox, and selected for the FSD Africa / Swiss Re Foundation BimaLab programme.' },
 ]
 
@@ -274,11 +274,12 @@ export const roadmap = [
   { year: '2029', phase: 'Regional', text: 'The same HIE re-licensed for priority African and MENA markets, not rebuilt.' },
 ]
 
+export const nationalPartner = 'FEDIS'
+
 export const partners = [
   'Microsoft',
   'ITQAN',
   'BimaLab Africa',
-  'FEDIS',
   'Egyptian Medical Syndicate',
   'FSD Africa',
 ]
