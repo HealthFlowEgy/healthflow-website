@@ -9,6 +9,7 @@ import {
   Eye,
   FileCheck2,
   Fingerprint,
+  Languages,
   Landmark,
   Linkedin,
   Lock,
@@ -30,39 +31,7 @@ import {
 } from 'lucide-react'
 import './App.css'
 import healthflowLogo from './assets/healthflow_logo.png'
-import {
-  agents,
-  contact,
-  costs,
-  flow,
-  governance,
-  heroStats,
-  hieAgents,
-  hip,
-  layers,
-  milestones,
-  nationalPartner,
-  partners,
-  regulators,
-  silos,
-  roadmap,
-  scenarios,
-  security,
-  solutions,
-  stakeholders,
-  standards,
-  team,
-  trustServices,
-} from './content.js'
-
-const nav = [
-  { id: 'platform', label: 'Platform' },
-  { id: 'solutions', label: 'Solutions' },
-  { id: 'ai', label: 'Governed AI' },
-  { id: 'impact', label: 'Who We Serve' },
-  { id: 'trust', label: 'Trust' },
-  { id: 'about', label: 'About' },
-]
+import { LANGS, LangContext, applyDocumentLang, content, initialLang, persistLang, useLang } from './i18n.js'
 
 const solutionIcons = {
   hip: Network,
@@ -86,6 +55,15 @@ const groupStyles = {
   AI: 'text-gold bg-gold/10',
 }
 
+function AltName({ lang, className = '', children }) {
+  const other = lang === 'en' ? 'ar' : 'en'
+  return (
+    <p dir={LANGS[other].dir} lang={other} className={`${other === 'ar' ? 'font-arabic' : 'font-latin'} ${className}`}>
+      {children}
+    </p>
+  )
+}
+
 function Eyebrow({ children, dark = false }) {
   return (
     <p className={`text-xs font-semibold tracking-[0.25em] uppercase ${dark ? 'text-gold-light' : 'text-gold'}`}>
@@ -106,7 +84,25 @@ function SectionHeading({ eyebrow, title, intro, dark = false, center = false })
   )
 }
 
+function LangToggle({ dark = false, className = '' }) {
+  const { lang, c, setLang } = useLang()
+  return (
+    <button
+      onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
+      aria-label={c.ui.switchLabel}
+      lang={lang === 'en' ? 'ar' : 'en'}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold transition ${
+        dark ? 'border-white/30 text-white hover:bg-white/10' : 'border-slate-300 text-navy-900 hover:bg-slate-100'
+      } ${className}`}
+    >
+      <Languages className="h-4 w-4" />
+      <span className={lang === 'en' ? 'font-arabic' : ''}>{c.ui.switchTo}</span>
+    </button>
+  )
+}
+
 function Header({ onContact }) {
+  const { c } = useLang()
   const [open, setOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
 
@@ -124,14 +120,14 @@ function Header({ onContact }) {
       }`}
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#top" className="flex items-center gap-2" aria-label="HealthFlow home">
+        <a href="#top" className="flex items-center gap-2" aria-label={c.ui.homeLabel}>
           <span className={`rounded-lg ${scrolled || open ? '' : 'bg-white/95 px-2 py-1'}`}>
             <img src={healthflowLogo} alt="HealthFlow" className="h-10 w-auto" />
           </span>
         </a>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {nav.map((item) => (
+          {c.nav.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
@@ -145,27 +141,31 @@ function Header({ onContact }) {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <LangToggle dark={!scrolled} />
           <button
             onClick={onContact}
             className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-navy-950 transition hover:bg-gold-light"
           >
-            Talk to us <ArrowRight className="h-4 w-4" />
+            {c.ui.talk} <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
           </button>
         </div>
 
+        <div className="flex items-center gap-2 lg:hidden">
+          <LangToggle dark={!(scrolled || open)} />
         <button
           className={`lg:hidden ${scrolled || open ? 'text-navy-900' : 'text-white'}`}
           onClick={() => setOpen(!open)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? c.ui.closeMenu : c.ui.openMenu}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
+        </div>
       </div>
 
       {open && (
         <div className="border-t border-slate-200 bg-white px-4 pb-6 pt-2 lg:hidden">
           <nav className="flex flex-col">
-            {nav.map((item) => (
+            {c.nav.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
@@ -183,7 +183,7 @@ function Header({ onContact }) {
             }}
             className="mt-4 w-full rounded-full bg-gold px-5 py-3 font-semibold text-navy-950"
           >
-            Talk to us
+            {c.ui.talk}
           </button>
         </div>
       )}
@@ -192,10 +192,11 @@ function Header({ onContact }) {
 }
 
 function Hero({ onContact }) {
+  const { lang, c } = useLang()
   return (
     <section id="top" className="relative overflow-hidden bg-navy-950 pt-32 pb-20 text-white sm:pt-40 sm:pb-28">
-      <div className="pointer-events-none absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-navy-800/70" />
-      <div className="pointer-events-none absolute -right-10 top-64 h-[28rem] w-[28rem] rounded-full bg-navy-900" />
+      <div className="pointer-events-none absolute -end-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-navy-800/70" />
+      <div className="pointer-events-none absolute -end-10 top-64 h-[28rem] w-[28rem] rounded-full bg-navy-900" />
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{
@@ -205,38 +206,39 @@ function Hero({ onContact }) {
       />
       <div className="relative mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-7">
-          <Eyebrow dark>HealthFlow Group · Powered by Tabadol</Eyebrow>
-          <h1 className="mt-6 font-serif text-4xl font-bold leading-[1.08] sm:text-6xl">
-            The national health information exchange for Egypt.
+          <Eyebrow dark>{c.ui.heroEyebrow}</Eyebrow>
+          <h1 className="mt-6 font-serif text-4xl font-bold leading-[1.08] sm:text-6xl rtl:leading-[1.3]">
+            {c.ui.heroTitle}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
-            HealthFlow builds the infrastructure that lets hospitals, clinics, pharmacies, laboratories, payers and
-            regulators share trusted health data: national registries at the foundation, an interoperability core in
-            the middle, and prescription, claims and AI exchanges on top. It is sovereign, standards-based and auditable
-            end to end.
+            {c.ui.heroText}
           </p>
-          <p dir="rtl" lang="ar" className="mt-4 font-arabic text-lg text-gold-light">
-            البنية التحتية الوطنية لتبادل المعلومات الصحية في مصر
+          <p
+            dir={lang === 'en' ? 'rtl' : 'ltr'}
+            lang={lang === 'en' ? 'ar' : 'en'}
+            className={`mt-4 text-lg text-gold-light ${lang === 'en' ? 'font-arabic' : 'font-latin'}`}
+          >
+            {c.ui.heroAlt}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <a
               href="#platform"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3.5 font-semibold text-navy-950 transition hover:bg-gold-light"
             >
-              Explore the platform <ArrowRight className="h-4 w-4" />
+              {c.ui.explore} <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
             </a>
             <button
               onClick={onContact}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-7 py-3.5 font-semibold text-white transition hover:bg-white/10"
             >
-              Request a demo
+              {c.ui.demo}
             </button>
           </div>
         </div>
 
-        <div className="lg:col-span-5 lg:pl-8">
+        <div className="lg:col-span-5 lg:ps-8">
           <div className="grid gap-4">
-            {heroStats.map((s) => (
+            {c.heroStats.map((s) => (
               <div key={s.value} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur">
                 <p className="font-serif text-4xl font-bold text-gold-light">{s.value}</p>
                 <p className="mt-2 text-sm text-slate-300">{s.label}</p>
@@ -249,13 +251,11 @@ function Hero({ onContact }) {
   )
 }
 
+const trustIcons = [Network, Landmark, Lock, Eye]
+
 function TrustBar() {
-  const items = [
-    { icon: Network, text: 'OpenHIE-aligned · HL7 FHIR R4' },
-    { icon: Landmark, text: 'Sovereign hosting inside Egypt' },
-    { icon: Lock, text: 'PDPL No. 151/2020 compliant' },
-    { icon: Eye, text: '24/7 regulatory oversight' },
-  ]
+  const { c } = useLang()
+  const items = c.trustBar.map((text, i) => ({ icon: trustIcons[i], text }))
   return (
     <div className="border-b border-slate-200 bg-white">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-8 sm:px-6 lg:grid-cols-4 lg:px-8">
@@ -274,17 +274,18 @@ function TrustBar() {
 }
 
 function Problem() {
+  const { c } = useLang()
   return (
     <section className="bg-slate-50 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="The problem"
-          title="Egypt's health data lives in silos."
-          intro="Every hospital, clinic, pharmacy, lab, payer and registry keeps its own records, codes and identities. Care, public health, regulation and financing all pay the price. A national exchange removes the structural conditions behind each of these problems."
+          eyebrow={c.ui.problemEyebrow}
+          title={c.ui.problemTitle}
+          intro={c.ui.problemIntro}
         />
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2">
-            {silos.map((l, i) => {
+            {c.silos.map((l, i) => {
               const Icon = siloIcons[i]
               return (
                 <div key={l.title} className="rounded-2xl border border-slate-200 bg-white p-6">
@@ -298,19 +299,16 @@ function Problem() {
             })}
           </div>
           <div className="rounded-2xl bg-navy-900 p-8 text-white">
-            <p className="text-sm font-semibold text-gold-light">What fragmentation costs</p>
+            <p className="text-sm font-semibold text-gold-light">{c.ui.costsTitle}</p>
             <ul className="mt-5 space-y-5">
-              {costs.map((c) => (
-                <li key={c.value}>
-                  <p className="font-serif text-2xl font-bold">{c.value}</p>
-                  <p className="text-sm text-slate-300">{c.label}</p>
+              {c.costs.map((x) => (
+                <li key={x.value}>
+                  <p className="font-serif text-2xl font-bold">{x.value}</p>
+                  <p className="text-sm text-slate-300">{x.label}</p>
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-xs leading-relaxed text-slate-400">
-              FWA estimate: medical-insurance claims base × the 3–10% range used by NHCAA and the US GAO, at the
-              conservative end.
-            </p>
+            <p className="mt-6 text-xs leading-relaxed text-slate-400">{c.ui.costsNote}</p>
           </div>
         </div>
       </div>
@@ -319,18 +317,19 @@ function Problem() {
 }
 
 function Platform() {
+  const { c } = useLang()
   return (
     <section id="platform" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="The platform"
-          title="One exchange. Every system connected once."
-          intro="HealthFlow is built as national infrastructure, not an application. National registries form the foundation, an agentic interoperability layer sits at the core, and information exchanges run on top. Each point-of-service system connects once and reaches the whole health system."
+          eyebrow={c.ui.platformEyebrow}
+          title={c.ui.platformTitle}
+          intro={c.ui.platformIntro}
         />
 
         <div className="mt-12 grid gap-6 lg:grid-cols-12">
           <div className="space-y-3 lg:col-span-9">
-            {layers.map((layer, i) => (
+            {c.layers.map((layer, i) => (
               <div
                 key={layer.name}
                 className={`rounded-2xl border p-5 ${
@@ -349,9 +348,9 @@ function Platform() {
             ))}
           </div>
           <div className="self-start rounded-2xl bg-navy-900 p-6 text-white lg:col-span-3">
-            <p className="text-xs font-semibold tracking-[0.2em] text-gold-light uppercase">Trust services</p>
+            <p className="text-xs font-semibold tracking-[0.2em] text-gold-light uppercase">{c.ui.trustServices}</p>
             <ul className="mt-4 space-y-3">
-              {trustServices.map((t) => (
+              {c.trustServices.map((t) => (
                 <li key={t} className="flex items-start gap-2 text-sm text-slate-200">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-teal-light" /> {t}
                 </li>
@@ -361,17 +360,17 @@ function Platform() {
         </div>
 
         <div className="mt-14">
-          <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">One prescription across the exchange</p>
+          <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">{c.ui.flowTitle}</p>
           <ol className="mt-4 grid gap-3 sm:grid-cols-5">
-            {flow.map((f, i) => (
+            {c.flow.map((f, i) => (
               <li key={f.step} className="relative rounded-xl border border-slate-200 p-4">
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal text-sm font-bold text-white">
                   {i + 1}
                 </span>
                 <p className="mt-3 font-semibold text-navy-900">{f.step}</p>
                 <p className="text-sm text-slate-500">{f.detail}</p>
-                {i < flow.length - 1 && (
-                  <ChevronRight className="absolute -right-3 top-1/2 hidden h-5 w-5 -translate-y-1/2 text-gold sm:block" />
+                {i < c.flow.length - 1 && (
+                  <ChevronRight className="absolute -end-3 top-1/2 hidden h-5 w-5 -translate-y-1/2 text-gold sm:block rtl:-scale-x-100" />
                 )}
               </li>
             ))}
@@ -383,18 +382,19 @@ function Platform() {
 }
 
 function Scenarios() {
+  const { c } = useLang()
   return (
     <section className="bg-white pb-20 sm:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-slate-50 p-8 ring-1 ring-slate-200 sm:p-12">
           <SectionHeading
-            eyebrow="The exchange in action"
-            title="From the delivery room to the outbreak map."
-            intro="Scenarios the national exchange is designed to handle, using one identity, one record and one set of rules across the whole system."
+            eyebrow={c.ui.scenariosEyebrow}
+            title={c.ui.scenariosTitle}
+            intro={c.ui.scenariosIntro}
           />
           <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
-            {scenarios.map((sc, i) => (
-              <div key={sc.title} className="border-l-2 border-gold pl-5">
+            {c.scenarios.map((sc, i) => (
+              <div key={sc.title} className="border-s-2 border-gold ps-5">
                 <p className="text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">0{i + 1}</p>
                 <h3 className="mt-1 font-serif text-lg font-semibold text-navy-900">{sc.title}</h3>
                 <p className="mt-1 text-sm text-slate-600">{sc.text}</p>
@@ -408,6 +408,8 @@ function Scenarios() {
 }
 
 function Solutions() {
+  const { lang, c } = useLang()
+  const { hip, solutions } = c
   const [filter, setFilter] = React.useState('All')
   const groups = ['All', 'Registry', 'Exchange', 'AI']
   const shown = filter === 'All' ? solutions : solutions.filter((s) => s.group === filter)
@@ -417,9 +419,9 @@ function Solutions() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
-            eyebrow="Solutions"
-            title="Registries, exchanges and AI on one national backbone."
-            intro="Each component works on its own and gets stronger with the others: the same identities, facility IDs, consent and audit trail run across all of them."
+            eyebrow={c.ui.solutionsEyebrow}
+            title={c.ui.solutionsTitle}
+            intro={c.ui.solutionsIntro}
           />
           <div className="flex flex-wrap gap-2" role="tablist">
             {groups.map((g) => (
@@ -432,7 +434,7 @@ function Solutions() {
                   filter === g ? 'bg-navy-900 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:text-navy-900'
                 }`}
               >
-                {{ All: 'All', Exchange: 'Exchanges', Registry: 'Registries', AI: 'AI & RegTech' }[g]}
+                {c.groupLabels[g]}
               </button>
             ))}
           </div>
@@ -448,9 +450,9 @@ function Solutions() {
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-gold-light">{hip.code}</span>
               </div>
               <h3 className="mt-5 font-serif text-2xl font-semibold">{hip.title}</h3>
-              <p dir="rtl" lang="ar" className="mt-1 font-arabic text-sm text-slate-400">
-                {hip.ar}
-              </p>
+              <AltName lang={lang} className="mt-1 text-sm text-slate-400">
+                {hip.alt}
+              </AltName>
               <p className="mt-4 text-slate-300">{hip.text}</p>
             </div>
             <ul className="space-y-3 self-center lg:col-span-2">
@@ -475,9 +477,9 @@ function Solutions() {
                   <span className={`rounded-full px-3 py-1 text-xs font-semibold ${groupStyles[s.group]}`}>{s.code}</span>
                 </div>
                 <h3 className="mt-5 font-serif text-xl font-semibold text-navy-900">{s.title}</h3>
-                <p dir="rtl" lang="ar" className="mt-1 font-arabic text-sm text-slate-500">
-                  {s.ar}
-                </p>
+                <AltName lang={lang} className="mt-1 text-sm text-slate-500">
+                  {s.alt}
+                </AltName>
                 <p className="mt-3 text-slate-600">{s.text}</p>
                 <ul className="mt-auto space-y-2 pt-5">
                   {s.points.map((p) => (
@@ -496,10 +498,11 @@ function Solutions() {
 }
 
 function AIEngine() {
+  const { c } = useLang()
   const [tab, setTab] = React.useState('hie')
   const tabs = [
-    { id: 'hie', label: 'Interoperability agents', items: hieAgents },
-    { id: 'claims', label: 'Claims agents', items: agents },
+    { id: 'hie', label: c.ui.tabHie, items: c.hieAgents },
+    { id: 'claims', label: c.ui.tabClaims, items: c.agents },
   ]
   const current = tabs.find((t) => t.id === tab)
 
@@ -508,9 +511,9 @@ function AIEngine() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           dark
-          eyebrow="Governed AI"
-          title="AI agents at the core of the exchange, under human authority."
-          intro="Specialist agents resolve identities, map terminologies, convert legacy records and validate prescriptions as data moves across the exchange, and review claims in seconds. Arabic language models run inside Egypt, and no patient data goes to external APIs."
+          eyebrow={c.ui.aiEyebrow}
+          title={c.ui.aiTitle}
+          intro={c.ui.aiIntro}
         />
 
         <div className="mt-10 flex flex-wrap gap-2" role="tablist">
@@ -529,7 +532,7 @@ function AIEngine() {
           ))}
           {tab === 'claims' && (
             <span className="inline-flex items-center gap-2 rounded-full border border-teal-light/40 px-4 py-1.5 text-xs font-semibold tracking-widest text-teal-light uppercase">
-              <Sparkles className="h-3.5 w-3.5" /> In production on HFCX
+              <Sparkles className="h-3.5 w-3.5" /> {c.ui.inProduction}
             </span>
           )}
         </div>
@@ -545,44 +548,43 @@ function AIEngine() {
         </div>
 
         <div className="mt-14 grid gap-4 lg:grid-cols-3">
-          {governance.map((g, i) => (
+          {c.governance.map((g, i) => (
             <div key={g.title} className="rounded-2xl bg-navy-800 p-6">
-              <p className="text-xs font-semibold tracking-[0.2em] text-teal-light uppercase">Step {i + 1}</p>
+              <p className="text-xs font-semibold tracking-[0.2em] text-teal-light uppercase">
+                {c.ui.step} {i + 1}
+              </p>
               <h3 className="mt-2 font-serif text-2xl font-semibold">{g.title}</h3>
               <p className="mt-2 text-sm text-slate-300">{g.text}</p>
             </div>
           ))}
         </div>
-        <p className="mt-8 max-w-3xl text-sm text-slate-400">
-          Existing deterministic mediators keep running as the fallback: agents extend them and never bypass them. For
-          claims, the engine is proven in shadow mode against 6–12 months of de-identified history before it advises
-          on a single live payment.
-        </p>
+        <p className="mt-8 max-w-3xl text-sm text-slate-400">{c.ui.aiNote}</p>
       </div>
     </section>
   )
 }
 
 function Impact() {
+  const { lang, c } = useLang()
   return (
     <section id="impact" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           center
-          eyebrow="Who we serve"
-          title="Built for every participant in the ecosystem."
-          intro="Government sets policy and standards, and HealthFlow provides and operates the platform under a public-private partnership. Every participant connects through the same exchange."
+          eyebrow={c.ui.impactEyebrow}
+          title={c.ui.impactTitle}
+          intro={c.ui.impactIntro}
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {stakeholders.map((s, i) => {
+          {c.stakeholders.map((s, i) => {
             const Icon = stakeholderIcons[i]
             return (
               <div key={s.title} className="rounded-2xl border border-slate-200 p-7">
                 <Icon className="h-8 w-8 text-gold" />
                 <h3 className="mt-4 font-serif text-xl font-semibold text-navy-900">{s.title}</h3>
-                <p dir="rtl" lang="ar" className="font-arabic text-sm text-slate-500">
-                  {s.ar}
-                </p>
+                <AltName lang={lang} className="text-sm text-slate-500">
+                  {s.alt}
+                </AltName>
                 <ul className="mt-4 space-y-2">
                   {s.points.map((p) => (
                     <li key={p} className="flex items-start gap-2 text-sm text-slate-700">
@@ -600,18 +602,19 @@ function Impact() {
 }
 
 function WhyNow() {
+  const { c } = useLang()
   return (
     <section className="bg-slate-50 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Why now"
-          title="A national mandate for connected health."
-          intro="Digital Egypt 2030 and Universal Health Insurance Law No. 2 of 2018 commit Egypt to a connected health system. For the first time, every authority involved is moving in the same direction: digitisation, interoperability and open infrastructure."
+          eyebrow={c.ui.whyEyebrow}
+          title={c.ui.whyTitle}
+          intro={c.ui.whyIntro}
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {regulators.map((r) => (
+          {c.regulators.map((r) => (
             <div key={r.code} className="rounded-2xl border border-slate-200 bg-white p-7">
-              <p className="font-serif text-4xl font-bold text-teal">{r.code}</p>
+              <p className="font-latin text-4xl font-bold text-teal">{r.code}</p>
               <p className="mt-2 font-semibold text-navy-900">{r.name}</p>
               <p className="mt-3 text-sm text-slate-600">{r.text}</p>
             </div>
@@ -623,15 +626,16 @@ function WhyNow() {
 }
 
 function Traction() {
+  const { c } = useLang()
   return (
     <section className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Progress"
-          title="The exchange is in production, not on a roadmap."
+          eyebrow={c.ui.progressEyebrow}
+          title={c.ui.progressTitle}
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {milestones.map((m) => (
+          {c.milestones.map((m) => (
             <div key={m.title} className="flex gap-4 rounded-2xl border border-slate-200 p-6">
               <FileCheck2 className="h-6 w-6 shrink-0 text-gold" />
               <div>
@@ -643,9 +647,9 @@ function Traction() {
         </div>
 
         <div className="mt-16">
-          <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">Roadmap</p>
+          <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">{c.ui.roadmap}</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {roadmap.map((r) => (
+            {c.roadmap.map((r) => (
               <div key={r.year} className="rounded-2xl bg-navy-900 p-6 text-white">
                 <p className="font-serif text-3xl font-bold text-gold-light">{r.year}</p>
                 <p className="mt-1 text-xs font-semibold tracking-[0.2em] text-teal-light uppercase">{r.phase}</p>
@@ -660,16 +664,17 @@ function Traction() {
 }
 
 function Trust() {
+  const { c } = useLang()
   return (
     <section id="trust" className="bg-slate-50 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Security & standards"
-          title="Sovereign, standards-based and auditable by design."
-          intro="HealthFlow is hosted in Egypt, built on open international standards and compliant with Egypt's Personal Data Protection Law."
+          eyebrow={c.ui.trustEyebrow}
+          title={c.ui.trustTitle}
+          intro={c.ui.trustIntro}
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {security.map((s) => (
+          {c.security.map((s) => (
             <div key={s.title} className="rounded-2xl border border-slate-200 bg-white p-6">
               <Lock className="h-6 w-6 text-brand" />
               <h3 className="mt-4 font-semibold text-navy-900">{s.title}</h3>
@@ -678,7 +683,7 @@ function Trust() {
           ))}
         </div>
         <div className="mt-10 flex flex-wrap gap-2">
-          {standards.map((s) => (
+          {c.standards.map((s) => (
             <span key={s} className="rounded-full bg-white px-4 py-2 text-sm font-medium text-navy-900 ring-1 ring-slate-200">
               {s}
             </span>
@@ -690,16 +695,17 @@ function Trust() {
 }
 
 function About() {
+  const { c } = useLang()
   return (
     <section id="about" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Leadership"
-          title="The team behind the rail."
-          intro="Clinical, regulatory, financial and engineering leadership, brought together to build regulated health infrastructure."
+          eyebrow={c.ui.teamEyebrow}
+          title={c.ui.teamTitle}
+          intro={c.ui.teamIntro}
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((m) => (
+          {c.team.map((m) => (
             <a
               key={m.name}
               href={m.url}
@@ -707,7 +713,7 @@ function About() {
               rel="noopener noreferrer"
               className="group flex items-center gap-5 rounded-2xl border border-slate-200 p-6 transition hover:border-gold/60 hover:shadow-md"
             >
-              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-navy-900 font-serif text-xl font-bold text-gold-light">
+              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-navy-900 font-latin text-xl font-bold text-gold-light">
                 {m.initials}
               </span>
               <div className="min-w-0">
@@ -723,14 +729,14 @@ function About() {
 
         <div className="mt-20">
           <div className="mx-auto flex max-w-md flex-col items-center rounded-2xl border border-gold/40 bg-gold/5 px-8 py-6 text-center">
-            <p className="text-xs font-semibold tracking-[0.25em] text-gold uppercase">National Strategic Partner</p>
-            <p className="mt-2 font-serif text-3xl font-bold text-navy-900">{nationalPartner}</p>
+            <p className="text-xs font-semibold tracking-[0.25em] text-gold uppercase">{c.ui.nationalPartner}</p>
+            <p className="mt-2 font-latin text-3xl font-bold text-navy-900">{c.nationalPartner}</p>
           </div>
           <p className="mt-12 text-center text-xs font-semibold tracking-[0.25em] text-gold uppercase">
-            Partners & programmes
+            {c.ui.partners}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            {partners.map((p) => (
+            {c.partners.map((p) => (
               <span key={p} className="font-serif text-xl font-semibold text-slate-400">
                 {p}
               </span>
@@ -743,20 +749,18 @@ function About() {
 }
 
 function CTA({ onContact }) {
+  const { c } = useLang()
   return (
     <section className="bg-navy-900 py-20 text-white">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <Network className="mx-auto h-10 w-10 text-gold-light" />
-        <h2 className="mt-6 font-serif text-3xl font-bold sm:text-4xl">Connect once. Reach the whole health system.</h2>
-        <p className="mt-4 text-lg text-slate-300">
-          We work with government, regulators, hospitals, clinics, pharmacies, laboratories, payers and technology
-          partners. Tell us what you need to connect, and we will show you how it fits on the exchange.
-        </p>
+        <h2 className="mt-6 font-serif text-3xl font-bold sm:text-4xl">{c.ui.ctaTitle}</h2>
+        <p className="mt-4 text-lg text-slate-300">{c.ui.ctaText}</p>
         <button
           onClick={onContact}
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 font-semibold text-navy-950 transition hover:bg-gold-light"
         >
-          Start a conversation <ArrowRight className="h-4 w-4" />
+          {c.ui.ctaButton} <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
         </button>
       </div>
     </section>
@@ -764,6 +768,8 @@ function CTA({ onContact }) {
 }
 
 function Footer() {
+  const { c } = useLang()
+  const { contact } = c
   const year = new Date().getFullYear()
   return (
     <footer id="contact" className="bg-navy-950 py-16 text-slate-300">
@@ -772,15 +778,12 @@ function Footer() {
           <span className="inline-block rounded-lg bg-white px-3 py-2">
             <img src={healthflowLogo} alt="HealthFlow" className="h-10 w-auto" />
           </span>
-          <p className="mt-4 max-w-md text-sm">
-            HealthFlow Group builds Egypt&apos;s national health information exchange infrastructure: national
-            registries, an interoperability core, prescription and claims exchanges, and governed AI.
-          </p>
+          <p className="mt-4 max-w-md text-sm">{c.ui.footerText}</p>
         </div>
         <div>
-          <p className="font-semibold text-white">Platform</p>
+          <p className="font-semibold text-white">{c.ui.footerPlatform}</p>
           <ul className="mt-4 space-y-2 text-sm">
-            {nav.slice(0, 5).map((n) => (
+            {c.nav.slice(0, 5).map((n) => (
               <li key={n.id}>
                 <a href={`#${n.id}`} className="hover:text-white">
                   {n.label}
@@ -790,7 +793,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <p className="font-semibold text-white">Contact</p>
+          <p className="font-semibold text-white">{c.ui.footerContact}</p>
           <ul className="mt-4 space-y-3 text-sm">
             <li>
               <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2 hover:text-white">
@@ -799,7 +802,7 @@ function Footer() {
             </li>
             <li>
               <a href={`tel:${contact.phoneHref}`} className="inline-flex items-center gap-2 hover:text-white">
-                <Phone className="h-4 w-4 text-gold" /> {contact.phone}
+                <Phone className="h-4 w-4 text-gold" /> <span dir="ltr">{contact.phone}</span>
               </a>
             </li>
             <li className="inline-flex items-center gap-2">
@@ -809,14 +812,16 @@ function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 px-4 pt-6 text-xs text-slate-500 sm:px-6 lg:px-8">
-        © {year} HealthFlow Group. All rights reserved.
+        © {year} {c.ui.rights}
       </div>
     </footer>
   )
 }
 
 function ContactDialog({ open, onClose }) {
-  const [form, setForm] = React.useState({ name: '', email: '', company: '', role: 'Government / regulator', message: '' })
+  const { c } = useLang()
+  const { contact, ui } = c
+  const [form, setForm] = React.useState({ name: '', email: '', company: '', role: '', message: '' })
   const [sent, setSent] = React.useState(false)
 
   React.useEffect(() => {
@@ -832,8 +837,9 @@ function ContactDialog({ open, onClose }) {
 
   const submit = (e) => {
     e.preventDefault()
-    const subject = `Website enquiry — ${form.role} — ${form.name}`
-    const body = `Name: ${form.name}\nEmail: ${form.email}\nOrganisation: ${form.company}\nI am a: ${form.role}\n\n${form.message}`
+    const role = form.role || c.roles[0]
+    const subject = `${ui.mailSubject} — ${role} — ${form.name}`
+    const body = `${ui.mailName}: ${form.name}\n${ui.mailEmail}: ${form.email}\n${ui.mailOrg}: ${form.company}\n${ui.mailRole}: ${role}\n\n${form.message}`
     window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     setSent(true)
   }
@@ -852,12 +858,12 @@ function ContactDialog({ open, onClose }) {
       >
         <div className="flex items-start justify-between">
           <div>
-            <Eyebrow>Contact</Eyebrow>
+            <Eyebrow>{ui.contactEyebrow}</Eyebrow>
             <h2 id="contact-title" className="mt-2 font-serif text-2xl font-bold text-navy-900">
-              Talk to HealthFlow
+              {ui.contactTitle}
             </h2>
           </div>
-          <button onClick={onClose} aria-label="Close" className="text-slate-400 hover:text-navy-900">
+          <button onClick={onClose} aria-label={ui.close} className="text-slate-400 hover:text-navy-900">
             <X className="h-6 w-6" />
           </button>
         </div>
@@ -865,53 +871,51 @@ function ContactDialog({ open, onClose }) {
         {sent ? (
           <div className="py-10 text-center">
             <CheckCircle2 className="mx-auto h-12 w-12 text-teal" />
-            <p className="mt-4 font-semibold text-navy-900">Your email app should now be open.</p>
+            <p className="mt-4 font-semibold text-navy-900">{ui.sentTitle}</p>
             <p className="mt-1 text-sm text-slate-600">
-              If it didn&apos;t open, write to us at{' '}
+              {ui.sentText}{' '}
               <a className="text-brand underline" href={`mailto:${contact.email}`}>
                 {contact.email}
               </a>
               .
             </p>
             <button onClick={onClose} className="mt-6 rounded-full bg-navy-900 px-6 py-2.5 text-sm font-semibold text-white">
-              Close
+              {ui.close}
             </button>
           </div>
         ) : (
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-sm font-medium text-slate-700">
-                Full name
-                <input required name="name" value={form.name} onChange={update} className={field} />
+                {ui.name}
+                <input required dir="auto" name="name" value={form.name} onChange={update} className={field} />
               </label>
               <label className="block text-sm font-medium text-slate-700">
-                Work email
-                <input required type="email" name="email" value={form.email} onChange={update} className={field} />
+                {ui.email}
+                <input required dir="ltr" type="email" name="email" value={form.email} onChange={update} className={field} />
               </label>
             </div>
             <label className="block text-sm font-medium text-slate-700">
-              Organisation
-              <input name="company" value={form.company} onChange={update} className={field} />
+              {ui.org}
+              <input dir="auto" name="company" value={form.company} onChange={update} className={field} />
             </label>
             <label className="block text-sm font-medium text-slate-700">
-              I am a
-              <select name="role" value={form.role} onChange={update} className={field}>
-                {['Government / regulator', 'Hospital / clinic', 'Insurer / TPA', 'Pharmacy', 'Investor', 'Technology partner', 'Other'].map(
-                  (r) => (
-                    <option key={r}>{r}</option>
-                  ),
-                )}
+              {ui.role}
+              <select name="role" value={form.role || c.roles[0]} onChange={update} className={field}>
+                {c.roles.map((r) => (
+                  <option key={r}>{r}</option>
+                ))}
               </select>
             </label>
             <label className="block text-sm font-medium text-slate-700">
-              How can we help?
-              <textarea required name="message" rows={4} value={form.message} onChange={update} className={field} />
+              {ui.message}
+              <textarea required dir="auto" name="message" rows={4} value={form.message} onChange={update} className={field} />
             </label>
             <button
               type="submit"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-navy-950 transition hover:bg-gold-light"
             >
-              <Send className="h-4 w-4" /> Send message
+              <Send className="h-4 w-4 rtl:-scale-x-100" /> {ui.send}
             </button>
           </form>
         )}
@@ -921,10 +925,28 @@ function ContactDialog({ open, onClose }) {
 }
 
 export default function App() {
+  const [lang, setLangState] = React.useState(initialLang)
   const [contactOpen, setContactOpen] = React.useState(false)
   const openContact = () => setContactOpen(true)
 
+  React.useEffect(() => {
+    applyDocumentLang(lang)
+  }, [lang])
+
+  const value = React.useMemo(
+    () => ({
+      lang,
+      c: content[lang],
+      setLang: (next) => {
+        persistLang(next)
+        setLangState(next)
+      },
+    }),
+    [lang],
+  )
+
   return (
+    <LangContext.Provider value={value}>
     <div className="min-h-screen bg-white text-slate-800">
       <Header onContact={openContact} />
       <main>
@@ -945,5 +967,6 @@ export default function App() {
       <Footer />
       <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
+    </LangContext.Provider>
   )
 }

@@ -1,5 +1,7 @@
-// Site content. Sourced from the HealthFlow Solution Components overview,
-// the 2026 Open Insurance brief and the RegTech one-pager.
+// English site content. Sourced from the HealthFlow Solution Components
+// overview, the 2026 investor brief and the RegTech one-pager.
+// content.ar.js mirrors every export in Arabic; keep the two in sync.
+// `alt` fields hold the name in the other language.
 
 export const contact = {
   email: 'info@healthflow.tech',
@@ -66,7 +68,7 @@ export const hip = {
   group: 'Exchange',
   code: 'HIP',
   title: 'HealthFlow Interoperability Platform — the HIE core',
-  ar: 'منصة التشغيل البيني — قلب منظومة تبادل المعلومات الصحية',
+  alt: 'منصة التشغيل البيني — قلب منظومة تبادل المعلومات الصحية',
   text: 'An OpenHIE-aligned exchange that connects every point-of-service system to the national registries and exchanges. Governed AI agents replace hand-coded mediators for identity resolution, terminology mapping, legacy integration, consent and routing. Hospitals connect as they are, from FHIR-native APIs down to scanned Arabic paper.',
   points: [
     'Four-tier HIS facade: FHIR, HL7 v2, batch and paper',
@@ -82,7 +84,7 @@ export const solutions = [
     group: 'Registry',
     code: 'NDPR',
     title: 'National Digital Patient Registry',
-    ar: 'السجل القومي الرقمي للمرضى',
+    alt: 'السجل القومي الرقمي للمرضى',
     text: 'Patient identity at population scale: one golden record per person, anchored to the 14-digit National ID, with Arabic-aware matching and a longitudinal FHIR record.',
     points: ['Designed for 120M golden records', 'IHE PMIR, PIXm & PDQm', 'Public-health surveillance engine'],
   },
@@ -91,7 +93,7 @@ export const solutions = [
     group: 'Registry',
     code: 'HPR',
     title: 'Healthcare Professional Registry',
-    ar: 'السجل القومي لمقدمي الخدمة الصحية',
+    alt: 'السجل القومي لمقدمي الخدمة الصحية',
     text: 'A unified digital identity for 750K+ healthcare professionals, with W3C DIDs, verifiable credentials, remote document signing and single sign-on across every portal.',
     points: ['Public licence verification', 'Remote e-signature for prescriptions', 'Built with the Egyptian Medical Syndicate'],
   },
@@ -100,7 +102,7 @@ export const solutions = [
     group: 'Registry',
     code: 'NHFR',
     title: 'Healthcare Facility Registry',
-    ar: 'السجل القومي للمنشآت الصحية',
+    alt: 'السجل القومي للمنشآت الصحية',
     text: 'The national master facility list on Sunbird RC. It is OpenHIE-aligned, issues a unique facility ID to every hospital, clinic, lab and pharmacy, and publishes verifiable accreditation status.',
     points: ['GAHAR accreditation listing', 'FHIR R4 / IHE mCSD interface', 'One facility ID for NDP, E-CLAIMS & HPR'],
   },
@@ -109,7 +111,7 @@ export const solutions = [
     group: 'Exchange',
     code: 'NDP',
     title: 'Digital Prescription — Rousheta Raqamya',
-    ar: 'الروشتة الرقمية',
+    alt: 'الروشتة الرقمية',
     text: "Egypt's national e-prescription exchange. Each script is checked against the EDA formulary, signed by a verified prescriber and traceable from issue to dispense.",
     points: ['47,292 EDA-registered medicines', 'AI drug-interaction & dosage checks', 'Digital, QR and National ID access paths'],
   },
@@ -118,7 +120,7 @@ export const solutions = [
     group: 'Exchange',
     code: 'HFCX',
     title: 'Healthcare Financial Claims Exchange',
-    ar: 'منصة تبادل مطالبات التأمين الصحي',
+    alt: 'منصة تبادل مطالبات التأمين الصحي',
     text: 'The financial lane of the exchange: real-time cashless claims between providers, insurers and TPAs. Decentralised routing with JWE-encrypted payloads and FHIR-aligned interfaces.',
     points: ['Real-time eligibility & benefit-limit checks', 'Up to 50% faster claims processing', 'Cross-payer duplicate detection'],
   },
@@ -127,7 +129,7 @@ export const solutions = [
     group: 'Exchange',
     code: 'E-CLAIMS',
     title: 'National Claim Ledger & Beneficiary Registry',
-    ar: 'المنظومة المصرية لإدارة ومراجعة سجل المطالبات',
+    alt: 'المنظومة المصرية لإدارة ومراجعة سجل المطالبات',
     text: 'One beneficiary registry and digital insurance wallet across UHIA and private insurance. It records who is covered, under which contract, and how much of every limit is used.',
     points: ['Digital insurance card & wallet', 'Beneficiary claim notifications & disputes', 'Regulator "Sky-Eye" oversight'],
   },
@@ -136,7 +138,7 @@ export const solutions = [
     group: 'AI',
     code: 'AIV',
     title: 'AI Claims Automation',
-    ar: 'أتمتة المطالبات بالذكاء الاصطناعي',
+    alt: 'أتمتة المطالبات بالذكاء الاصطناعي',
     text: 'Six specialist agents review every claim in seconds. Each recommendation comes with its reasons, and the payer reviewer keeps the final decision.',
     points: ['Coding, eligibility, necessity & pricing', 'Network-level fraud detection', 'Shadow-mode validated before go-live'],
   },
@@ -145,7 +147,7 @@ export const solutions = [
     group: 'AI',
     code: 'ITQAN',
     title: 'ITQAN AI — Accreditation Readiness',
-    ar: 'إتقان — الجاهزية للاعتماد',
+    alt: 'إتقان — الجاهزية للاعتماد',
     text: "A bilingual (AR/EN) AI command centre built on a facility's digital twin, for GAHAR and JCI accreditation readiness and quality management.",
     points: ['Real-time gap assessments', 'Automated CAPA / RCA & KPI tracking', 'Standards-cited documentation'],
   },
@@ -154,7 +156,7 @@ export const solutions = [
     group: 'AI',
     code: 'RegTech',
     title: 'Compliance & Fraud Prevention',
-    ar: 'الامتثال ومكافحة الاحتيال',
+    alt: 'الامتثال ومكافحة الاحتيال',
     text: 'Continuous, AI-powered compliance monitoring: real-time anomaly detection and automated audit trails that keep participants within regulation and reduce revenue leakage.',
     points: ['Real-time anomaly alerts', 'Tamper-evident audit trails', 'Regulator dashboards'],
   },
@@ -211,22 +213,22 @@ export const governance = [
 export const stakeholders = [
   {
     title: 'Government & regulators',
-    ar: 'الحكومة والجهات الرقابية',
+    alt: 'الحكومة والجهات الرقابية',
     points: ['National dashboards for MoHP and regulators', 'Public-health surveillance & outbreak alerts', 'Standardised, auditable data', 'Sovereign control of national health data'],
   },
   {
     title: 'Hospitals, clinics, pharmacies & labs',
-    ar: 'مقدمو الخدمة',
+    alt: 'مقدمو الخدمة',
     points: ['The patient’s history, wherever they were treated', 'Connect as you are: FHIR, HL7 v2 or batch', 'Eligibility & limits at point of service', 'One integration, the whole system'],
   },
   {
     title: 'Patients',
-    ar: 'المرضى',
+    alt: 'المرضى',
     points: ['One health record across providers', 'See and control who accessed it', 'Safer, verified prescriptions', 'One view of all insurance coverage'],
   },
   {
     title: 'Insurance companies & TPAs',
-    ar: 'شركات التأمين',
+    alt: 'شركات التأمين',
     points: ['Lower operational cost per claim', 'Cross-payer fraud visibility', 'Faster, explainable adjudication', 'Keep existing TPA software'],
   },
 ]
@@ -292,3 +294,120 @@ export const team = [
   { initials: 'HE', name: 'Hassan Elsokkary', role: 'Chief Technology Advisor', url: 'https://www.linkedin.com/in/hassan-elsokkary-bb526333/' },
   { initials: 'MS', name: 'Mohammed Saleh', role: 'Chief Commercial Advisor', url: 'https://www.linkedin.com/in/mohammed-saleh-ab89024b/' },
 ]
+
+export const meta = {
+  title: 'HealthFlow — National Health Information Exchange Infrastructure for Egypt',
+  description:
+    "HealthFlow builds Egypt's national health information exchange: patient, professional and facility registries, an OpenHIE interoperability core, the Rousheta Raqamya prescription exchange, claims exchanges, public-health intelligence and governed AI.",
+}
+
+export const nav = [
+  { id: 'platform', label: 'Platform' },
+  { id: 'solutions', label: 'Solutions' },
+  { id: 'ai', label: 'Governed AI' },
+  { id: 'impact', label: 'Who We Serve' },
+  { id: 'trust', label: 'Trust' },
+  { id: 'about', label: 'About' },
+]
+
+export const trustBar = [
+  'OpenHIE-aligned · HL7 FHIR R4',
+  'Sovereign hosting inside Egypt',
+  'PDPL No. 151/2020 compliant',
+  '24/7 regulatory oversight',
+]
+
+export const groupLabels = { All: 'All', Registry: 'Registries', Exchange: 'Exchanges', AI: 'AI & RegTech' }
+
+export const roles = ['Government / regulator', 'Hospital / clinic', 'Insurer / TPA', 'Pharmacy', 'Investor', 'Technology partner', 'Other']
+
+export const ui = {
+  switchTo: 'العربية',
+  switchLabel: 'View this site in Arabic',
+  homeLabel: 'HealthFlow home',
+  openMenu: 'Open menu',
+  closeMenu: 'Close menu',
+  talk: 'Talk to us',
+  heroEyebrow: 'HealthFlow Group · Powered by Tabadol',
+  heroTitle: 'The national health information exchange for Egypt.',
+  heroText:
+    'HealthFlow builds the infrastructure that lets hospitals, clinics, pharmacies, laboratories, payers and regulators share trusted health data: national registries at the foundation, an interoperability core in the middle, and prescription, claims and AI exchanges on top. It is sovereign, standards-based and auditable end to end.',
+  heroAlt: 'البنية التحتية الوطنية لتبادل المعلومات الصحية في مصر',
+  explore: 'Explore the platform',
+  demo: 'Request a demo',
+  problemEyebrow: 'The problem',
+  problemTitle: "Egypt's health data lives in silos.",
+  problemIntro:
+    'Every hospital, clinic, pharmacy, lab, payer and registry keeps its own records, codes and identities. Care, public health, regulation and financing all pay the price. A national exchange removes the structural conditions behind each of these problems.',
+  costsTitle: 'What fragmentation costs',
+  costsNote: 'FWA estimate: medical-insurance claims base × the 3–10% range used by NHCAA and the US GAO, at the conservative end.',
+  platformEyebrow: 'The platform',
+  platformTitle: 'One exchange. Every system connected once.',
+  platformIntro:
+    'HealthFlow is built as national infrastructure, not an application. National registries form the foundation, an agentic interoperability layer sits at the core, and information exchanges run on top. Each point-of-service system connects once and reaches the whole health system.',
+  trustServices: 'Trust services',
+  flowTitle: 'One prescription across the exchange',
+  scenariosEyebrow: 'The exchange in action',
+  scenariosTitle: 'From the delivery room to the outbreak map.',
+  scenariosIntro:
+    'Scenarios the national exchange is designed to handle, using one identity, one record and one set of rules across the whole system.',
+  solutionsEyebrow: 'Solutions',
+  solutionsTitle: 'Registries, exchanges and AI on one national backbone.',
+  solutionsIntro:
+    'Each component works on its own and gets stronger with the others: the same identities, facility IDs, consent and audit trail run across all of them.',
+  aiEyebrow: 'Governed AI',
+  aiTitle: 'AI agents at the core of the exchange, under human authority.',
+  aiIntro:
+    'Specialist agents resolve identities, map terminologies, convert legacy records and validate prescriptions as data moves across the exchange, and review claims in seconds. Arabic language models run inside Egypt, and no patient data goes to external APIs.',
+  tabHie: 'Interoperability agents',
+  tabClaims: 'Claims agents',
+  inProduction: 'In production on HFCX',
+  step: 'Step',
+  aiNote:
+    'Existing deterministic mediators keep running as the fallback: agents extend them and never bypass them. For claims, the engine is proven in shadow mode against 6–12 months of de-identified history before it advises on a single live payment.',
+  impactEyebrow: 'Who we serve',
+  impactTitle: 'Built for every participant in the ecosystem.',
+  impactIntro:
+    'Government sets policy and standards, and HealthFlow provides and operates the platform under a public-private partnership. Every participant connects through the same exchange.',
+  whyEyebrow: 'Why now',
+  whyTitle: 'A national mandate for connected health.',
+  whyIntro:
+    'Digital Egypt 2030 and Universal Health Insurance Law No. 2 of 2018 commit Egypt to a connected health system. For the first time, every authority involved is moving in the same direction: digitisation, interoperability and open infrastructure.',
+  progressEyebrow: 'Progress',
+  progressTitle: 'The exchange is in production, not on a roadmap.',
+  roadmap: 'Roadmap',
+  trustEyebrow: 'Security & standards',
+  trustTitle: 'Sovereign, standards-based and auditable by design.',
+  trustIntro:
+    "HealthFlow is hosted in Egypt, built on open international standards and compliant with Egypt's Personal Data Protection Law.",
+  teamEyebrow: 'Leadership',
+  teamTitle: 'The team behind the exchange.',
+  teamIntro: 'Clinical, regulatory, financial and engineering leadership, brought together to build regulated health infrastructure.',
+  nationalPartner: 'National Strategic Partner',
+  partners: 'Partners & programmes',
+  ctaTitle: 'Connect once. Reach the whole health system.',
+  ctaText:
+    'We work with government, regulators, hospitals, clinics, pharmacies, laboratories, payers and technology partners. Tell us what you need to connect, and we will show you how it fits on the exchange.',
+  ctaButton: 'Start a conversation',
+  footerText:
+    "HealthFlow Group builds Egypt's national health information exchange infrastructure: national registries, an interoperability core, prescription and claims exchanges, and governed AI.",
+  footerPlatform: 'Platform',
+  footerContact: 'Contact',
+  rights: 'HealthFlow Group. All rights reserved.',
+  contactEyebrow: 'Contact',
+  contactTitle: 'Talk to HealthFlow',
+  close: 'Close',
+  sentTitle: 'Your email app should now be open.',
+  sentText: "If it didn't open, write to us at",
+  name: 'Full name',
+  email: 'Work email',
+  org: 'Organisation',
+  role: 'I am a',
+  message: 'How can we help?',
+  send: 'Send message',
+  mailSubject: 'Website enquiry',
+  mailName: 'Name',
+  mailEmail: 'Email',
+  mailOrg: 'Organisation',
+  mailRole: 'I am a',
+}
