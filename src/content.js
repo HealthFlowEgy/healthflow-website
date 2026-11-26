@@ -9,23 +9,27 @@ export const contact = {
 }
 
 export const heroStats = [
-  { value: 'EGP 110B', label: 'Egyptian insurance GWP, 2025 — the market our rail serves' },
-  { value: '3–10%', label: 'of health spend lost to fraud, waste and abuse globally' },
-  { value: 'Live', label: 'HFCX claims exchange, provider registry and AI engine in production' },
+  { value: '120M', label: 'citizens the national patient registry is designed to serve, one golden record each' },
+  { value: '750K+', label: 'healthcare professionals given one verifiable digital identity' },
+  { value: 'Live', label: 'Registries, prescription and claims exchanges running in production' },
 ]
 
-export const leakage = [
+export const silos = [
   {
-    title: 'Phantom prescriptions',
-    text: 'Scripts written, dispensed and billed without the patient ever receiving the medication.',
+    title: 'Fragmented identity',
+    text: 'The same patient is registered differently at every hospital, payer and pharmacy, so no one holds a complete record.',
   },
   {
-    title: 'Duplicate claims',
-    text: 'The same episode adjudicated across several payers, none of which can see the others.',
+    title: 'Unverifiable credentials',
+    text: 'Professional and facility licences live on paper and are checked by hand, which is slow, error-prone and open to fraud.',
   },
   {
-    title: 'Upcoded adjudication',
-    text: "Services billed above what was delivered. A single payer's review can't detect it.",
+    title: 'Disconnected systems',
+    text: 'Every HIS, payer and pharmacy keeps its own codes. Legacy HL7 v2, batch files and paper never reach a shared record.',
+  },
+  {
+    title: 'Blind payers',
+    text: 'Insurers adjudicate in silos, so phantom prescriptions, duplicate claims and upcoding go undetected.',
   },
 ]
 
@@ -57,33 +61,30 @@ export const trustServices = [
   'PDPL No. 151/2020',
 ]
 
+export const hip = {
+  key: 'hip',
+  group: 'Exchange',
+  code: 'HIP',
+  title: 'HealthFlow Interoperability Platform — the HIE core',
+  ar: 'منصة التشغيل البيني — قلب منظومة تبادل المعلومات الصحية',
+  text: 'An OpenHIE-aligned exchange that connects every point-of-service system to the national registries and exchanges. Governed AI agents replace hand-coded mediators for identity resolution, terminology mapping, legacy integration, consent and routing. Hospitals connect as they are, from FHIR-native APIs down to scanned Arabic paper.',
+  points: [
+    'Four-tier HIS facade: FHIR, HL7 v2, batch and paper',
+    'IHE PMIR, PIXm, PDQm, MHD and IPS',
+    'Event-driven backbone: every change emitted once',
+    'Consent and purpose-of-use enforced at the gateway',
+  ],
+}
+
 export const solutions = [
   {
-    key: 'hfcx',
-    group: 'Exchange',
-    code: 'HFCX',
-    title: 'Healthcare Financial Claims Exchange',
-    ar: 'منصة تبادل مطالبات التأمين الصحي',
-    text: 'A neutral, real-time rail for cashless claims between providers, insurers and TPAs. Decentralised routing with JWE-encrypted payloads and FHIR-aligned interfaces.',
-    points: ['Real-time eligibility & benefit-limit checks', 'Up to 50% faster claims processing', 'Cross-payer duplicate detection'],
-  },
-  {
-    key: 'ndp',
-    group: 'Exchange',
-    code: 'NDP',
-    title: 'Digital Prescription — Rousheta Raqamya',
-    ar: 'الروشتة الرقمية',
-    text: "Egypt's national e-prescription exchange. Each script is checked against the EDA formulary, signed by a verified prescriber and traceable from issue to dispense.",
-    points: ['47,292 EDA-registered medicines', 'AI drug-interaction & dosage checks', 'Digital, QR and National ID access paths'],
-  },
-  {
-    key: 'eclaims',
-    group: 'Exchange',
-    code: 'E-CLAIMS',
-    title: 'National Claim Ledger & Beneficiary Registry',
-    ar: 'المنظومة المصرية لإدارة ومراجعة سجل المطالبات',
-    text: 'One beneficiary registry and digital insurance wallet across UHIA and private insurance. It records who is covered, under which contract, and how much of every limit is used.',
-    points: ['Digital insurance card & wallet', 'Beneficiary claim notifications & disputes', 'Regulator "Sky-Eye" oversight'],
+    key: 'ndpr',
+    group: 'Registry',
+    code: 'NDPR',
+    title: 'National Digital Patient Registry',
+    ar: 'السجل القومي الرقمي للمرضى',
+    text: 'Patient identity at population scale: one golden record per person, anchored to the 14-digit National ID, with Arabic-aware matching and a longitudinal FHIR record.',
+    points: ['Designed for 120M golden records', 'IHE PMIR, PIXm & PDQm', 'Public-health surveillance engine'],
   },
   {
     key: 'hpr',
@@ -104,13 +105,31 @@ export const solutions = [
     points: ['GAHAR accreditation listing', 'FHIR R4 / IHE mCSD interface', 'One facility ID for NDP, E-CLAIMS & HPR'],
   },
   {
-    key: 'ndpr',
-    group: 'Registry',
-    code: 'NDPR',
-    title: 'National Digital Patient Registry',
-    ar: 'السجل القومي الرقمي للمرضى',
-    text: 'Patient identity at population scale: one golden record per person, anchored to the 14-digit National ID, with Arabic-aware matching and a longitudinal FHIR record.',
-    points: ['Designed for 120M golden records', 'IHE PMIR, PIXm & PDQm', 'Public-health surveillance engine'],
+    key: 'ndp',
+    group: 'Exchange',
+    code: 'NDP',
+    title: 'Digital Prescription — Rousheta Raqamya',
+    ar: 'الروشتة الرقمية',
+    text: "Egypt's national e-prescription exchange. Each script is checked against the EDA formulary, signed by a verified prescriber and traceable from issue to dispense.",
+    points: ['47,292 EDA-registered medicines', 'AI drug-interaction & dosage checks', 'Digital, QR and National ID access paths'],
+  },
+  {
+    key: 'hfcx',
+    group: 'Exchange',
+    code: 'HFCX',
+    title: 'Healthcare Financial Claims Exchange',
+    ar: 'منصة تبادل مطالبات التأمين الصحي',
+    text: 'The financial lane of the exchange: real-time cashless claims between providers, insurers and TPAs. Decentralised routing with JWE-encrypted payloads and FHIR-aligned interfaces.',
+    points: ['Real-time eligibility & benefit-limit checks', 'Up to 50% faster claims processing', 'Cross-payer duplicate detection'],
+  },
+  {
+    key: 'eclaims',
+    group: 'Exchange',
+    code: 'E-CLAIMS',
+    title: 'National Claim Ledger & Beneficiary Registry',
+    ar: 'المنظومة المصرية لإدارة ومراجعة سجل المطالبات',
+    text: 'One beneficiary registry and digital insurance wallet across UHIA and private insurance. It records who is covered, under which contract, and how much of every limit is used.',
+    points: ['Digital insurance card & wallet', 'Beneficiary claim notifications & disputes', 'Regulator "Sky-Eye" oversight'],
   },
   {
     key: 'ai',
@@ -142,11 +161,20 @@ export const solutions = [
 ]
 
 export const flow = [
-  { step: 'Script issued', detail: 'Prescriber signs on NDP' },
-  { step: 'Identity verified', detail: 'HPR · NDPR' },
-  { step: 'Validated', detail: 'AI + EDA formulary' },
-  { step: 'Claim exchanged', detail: 'HFCX' },
-  { step: 'Settled', detail: 'HealthPay' },
+  { step: 'Patient identified', detail: 'NDPR golden record' },
+  { step: 'Prescriber verified', detail: 'HPR · facility registry' },
+  { step: 'Script validated', detail: 'AI + EDA formulary' },
+  { step: 'Record shared', detail: 'FHIR R4 · consent-checked' },
+  { step: 'Claim settled', detail: 'HFCX · E-CLAIMS' },
+]
+
+export const hieAgents = [
+  { n: '01', title: 'Identity resolution', text: 'National ID validation, Arabic name normalisation and PIXm / PDQm matching. Uncertain matches go to data stewards with the evidence.' },
+  { n: '02', title: 'Terminology & mapping', text: 'Maps local codes to ICD-10 / ICD-11, SNOMED CT, LOINC, ATC and national drug codes. Uncoded text is queued, never dropped.' },
+  { n: '03', title: 'Legacy integration', text: 'Turns HL7 v2, batch files and scanned Arabic paper into FHIR R4, with confidence scores and provenance.' },
+  { n: '04', title: 'Consent & policy', text: 'Enforces purpose-of-use, consent scope and break-glass rules at the gateway. Denials are logged, never hidden.' },
+  { n: '05', title: 'Routing & orchestration', text: 'Routes each transaction to the registries, NDP, E-CLAIMS and the claims engine, with retries and store-and-forward.' },
+  { n: '06', title: 'Data integrity', text: 'Validates against Egyptian FHIR profiles, scores facility data quality and flags anomalies early.' },
 ]
 
 export const agents = [
@@ -161,37 +189,37 @@ export const agents = [
 export const governance = [
   { title: 'AI proposes', text: 'Each agent returns an action with a confidence score and the evidence behind it.' },
   { title: 'Rules decide', text: 'Versioned, testable rules and Egyptian FHIR profiles accept, hold or reject the action.' },
-  { title: 'Humans authorise', text: 'Payer reviewers approve uncertain or high-value decisions. Every step is written to a hash-chained ledger.' },
+  { title: 'Humans authorise', text: 'Data stewards, clinicians and payer reviewers approve uncertain or high-impact actions. Every step is written to a hash-chained ledger.' },
 ]
 
 export const stakeholders = [
+  {
+    title: 'Government & regulators',
+    ar: 'الحكومة والجهات الرقابية',
+    points: ['National dashboards for MoHP, UHIA and FRA', 'Public-health surveillance & outbreak alerts', 'Standardised, auditable data', 'Sovereign control of national health data'],
+  },
+  {
+    title: 'Healthcare providers',
+    ar: 'مقدمو الخدمة',
+    points: ['The patient’s history, wherever they were treated', 'Connect as you are: FHIR, HL7 v2 or batch', 'Eligibility & limits at point of service', 'One integration, the whole system'],
+  },
+  {
+    title: 'Patients',
+    ar: 'المرضى',
+    points: ['One health record across providers', 'See and control who accessed it', 'Safer, verified prescriptions', 'One view of all insurance coverage'],
+  },
   {
     title: 'Insurance companies & TPAs',
     ar: 'شركات التأمين',
     points: ['Lower operational cost per claim', 'Cross-payer fraud visibility', 'Faster, explainable adjudication', 'Keep existing TPA software'],
   },
-  {
-    title: 'Regulators',
-    ar: 'الجهات الرقابية',
-    points: ['Real-time "Sky-Eye" market oversight', 'Standardised, auditable claims data', 'TPA performance evidence', 'Stronger consumer protection'],
-  },
-  {
-    title: 'Healthcare providers',
-    ar: 'مقدمو الخدمة',
-    points: ['Eligibility & limits at point of service', 'Fewer rejected claims', 'Faster cashless settlement', 'One integration, every payer'],
-  },
-  {
-    title: 'Patients',
-    ar: 'المرضى',
-    points: ['One view of all coverage', 'Notified of every claim', 'Dispute services not received', 'Safer, verified prescriptions'],
-  },
 ]
 
 export const regulators = [
+  { code: 'MoHP', name: 'Ministry of Health and Population', text: 'National standards, Digital Egypt 2030 health strategy and governorate-by-governorate rollout.' },
   { code: 'UHIA', name: 'Universal Health Insurance Authority', text: 'Phased universal-coverage rollout driving digital claims adoption at national scale.' },
   { code: 'EDA', name: 'Egyptian Drug Authority', text: 'National formulary and e-prescription direction already in motion.' },
   { code: 'FRA', name: 'Financial Regulatory Authority', text: 'Insurance oversight requiring standardised, auditable claims data. HealthFlow is admitted to its regulatory sandbox.' },
-  { code: 'EHC', name: 'Egyptian Health Council', text: 'Central healthcare-professional credentialing and single sign-on.' },
 ]
 
 export const milestones = [
@@ -200,11 +228,12 @@ export const milestones = [
   { title: 'FRA regulatory sandbox', text: 'Admitted to the FRA sandbox, the regulated route to market for insurance infrastructure.' },
   { title: 'BimaLab Africa selection', text: 'Selected for the FSD Africa / Swiss Re Foundation insurtech accelerator programme.' },
   { title: 'FEDIS strategic partnership', text: 'Executed strategic partnership with FEDIS as the entry point for the first insurer cohort.' },
-  { title: 'Digital prescription deployed', text: 'NDP / Rousheta Raqamya platform deployed, with the AI validation engine checking every script.' },
+  { title: 'Digital prescription deployed', text: 'NDP / Rousheta Raqamya exchange deployed, with the AI validation engine checking every script against the EDA formulary.' },
 ]
 
 export const standards = [
   'HL7 FHIR R4',
+  'SNOMED CT · LOINC · ICD-10/11',
   'IHE PMIR · PIXm · PDQm · MHD',
   'OpenHIE',
   'W3C DIDs & VCs',
@@ -223,10 +252,10 @@ export const security = [
 ]
 
 export const roadmap = [
-  { year: '2026', phase: 'Foundation', text: 'Insurer pilot cohort on HFCX with AI adjudication live, and production rollout of digital prescriptions.' },
-  { year: '2027', phase: 'Scale', text: 'National insurer onboarding, UHIA integration and recurring transaction volume.' },
-  { year: '2028', phase: 'Standard', text: 'The default rail for Egyptian health claims, with data and analytics products live.' },
-  { year: '2029', phase: 'Regional', text: 'Priority African and MENA markets licensed and live, with the rail extending beyond Egypt.' },
+  { year: '2026', phase: 'Foundation', text: 'Registries and exchanges in production. First insurer cohort on HFCX and production rollout of digital prescriptions.' },
+  { year: '2027', phase: 'Scale', text: 'UHIA integration, national onboarding of providers and payers, and the patient registry live in pilot governorates.' },
+  { year: '2028', phase: 'National', text: "The default exchange for Egypt's health transactions: shared health record, analytics and public-health intelligence." },
+  { year: '2029', phase: 'Regional', text: 'The same HIE re-licensed for priority African and MENA markets, not rebuilt.' },
 ]
 
 export const partners = [

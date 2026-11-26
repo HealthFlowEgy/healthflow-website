@@ -24,7 +24,6 @@ import {
   ShieldCheck,
   Sparkles,
   Stethoscope,
-  Timer,
   UserRound,
   Users,
   X,
@@ -37,11 +36,13 @@ import {
   flow,
   governance,
   heroStats,
+  hieAgents,
+  hip,
   layers,
-  leakage,
   milestones,
   partners,
   regulators,
+  silos,
   roadmap,
   security,
   solutions,
@@ -54,13 +55,14 @@ import {
 const nav = [
   { id: 'platform', label: 'Platform' },
   { id: 'solutions', label: 'Solutions' },
-  { id: 'ai', label: 'AI Engine' },
+  { id: 'ai', label: 'Governed AI' },
   { id: 'impact', label: 'Who We Serve' },
   { id: 'trust', label: 'Trust' },
   { id: 'about', label: 'About' },
 ]
 
 const solutionIcons = {
+  hip: Network,
   hfcx: Receipt,
   ndp: Pill,
   eclaims: ScrollText,
@@ -72,7 +74,8 @@ const solutionIcons = {
   regtech: ShieldCheck,
 }
 
-const stakeholderIcons = [Landmark, Eye, Stethoscope, UserRound]
+const stakeholderIcons = [Landmark, Stethoscope, UserRound, Receipt]
+const siloIcons = [Users, Fingerprint, Network, Receipt]
 
 const groupStyles = {
   Exchange: 'text-teal bg-teal/10',
@@ -201,15 +204,16 @@ function Hero({ onContact }) {
         <div className="lg:col-span-7">
           <Eyebrow dark>HealthFlow Group · Powered by Tabadol</Eyebrow>
           <h1 className="mt-6 font-serif text-4xl font-bold leading-[1.08] sm:text-6xl">
-            Open Insurance infrastructure for Egypt&apos;s health system.
+            The national health information exchange for Egypt.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
-            HealthFlow runs the neutral, AI-native transaction rail that connects payers, providers, pharmacies and
-            regulators. It covers claims, prescriptions and identity, and every transaction is encrypted, auditable and
-            settled in real time.
+            HealthFlow builds the infrastructure that lets hospitals, clinics, pharmacies, laboratories, payers and
+            regulators share trusted health data: national registries at the foundation, an interoperability core in
+            the middle, and prescription, claims and AI exchanges on top. It is sovereign, standards-based and auditable
+            end to end.
           </p>
           <p dir="rtl" lang="ar" className="mt-4 font-arabic text-lg text-gold-light">
-            البنية التحتية الرقمية للتأمين الصحي المفتوح في مصر
+            البنية التحتية الوطنية لتبادل المعلومات الصحية في مصر
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <a
@@ -244,10 +248,10 @@ function Hero({ onContact }) {
 
 function TrustBar() {
   const items = [
-    { icon: Timer, text: 'Up to 50% faster claims processing' },
-    { icon: Lock, text: 'PCI DSS certified payment security' },
+    { icon: Network, text: 'OpenHIE-aligned · HL7 FHIR R4' },
+    { icon: Landmark, text: 'Sovereign hosting inside Egypt' },
+    { icon: Lock, text: 'PDPL No. 151/2020 compliant' },
     { icon: Eye, text: '24/7 regulatory oversight' },
-    { icon: Landmark, text: 'FRA regulatory sandbox participant' },
   ]
   return (
     <div className="border-b border-slate-200 bg-white">
@@ -272,32 +276,36 @@ function Problem() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="The problem"
-          title="Egypt's payers are blind to each other, and it is expensive."
-          intro="Every insurer adjudicates in its own silo, so the costliest leakage is the kind that only shows up across payers. Open Banking removed the structural conditions that produced fraud in finance. Open Insurance does the same for health claims."
+          title="Egypt's health data lives in silos."
+          intro="Every hospital, payer, pharmacy and registry keeps its own records, codes and identities. Patients repeat tests, prescribers can't be verified, and the system can't see itself, from outbreaks to fraud. An exchange removes the structural conditions behind each of these."
         />
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          <div className="rounded-2xl bg-navy-900 p-8 text-white lg:row-span-3">
-            <p className="text-sm font-semibold text-gold-light">EGP</p>
-            <p className="font-serif text-7xl font-bold">4B+</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2">
+            {silos.map((l, i) => {
+              const Icon = siloIcons[i]
+              return (
+                <div key={l.title} className="rounded-2xl border border-slate-200 bg-white p-6">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-gold">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-serif text-xl font-semibold text-navy-900">{l.title}</h3>
+                  <p className="mt-1 text-slate-600">{l.text}</p>
+                </div>
+              )
+            })}
+          </div>
+          <div className="flex flex-col rounded-2xl bg-navy-900 p-8 text-white">
+            <p className="text-sm font-semibold text-gold-light">The cost of fragmentation, in insurance alone</p>
+            <p className="mt-2 font-serif text-6xl font-bold">EGP 4B+</p>
             <p className="mt-4 text-slate-300">
-              Estimated annual loss to fraud, waste and abuse across Egypt&apos;s medical insurance market.
+              Estimated annual loss to fraud, waste and abuse across Egypt&apos;s medical insurance market. Most of it
+              is visible only across payers.
             </p>
-            <p className="mt-8 text-xs leading-relaxed text-slate-400">
+            <p className="mt-auto pt-8 text-xs leading-relaxed text-slate-400">
               HealthFlow estimate: medical-insurance claims base × the 3–10% FWA range used by NHCAA and the US GAO,
               taken at the conservative end.
             </p>
           </div>
-          {leakage.map((l, i) => (
-            <div key={l.title} className="flex gap-5 rounded-2xl border border-slate-200 bg-white p-6 lg:col-span-2">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold/15 font-semibold text-gold">
-                0{i + 1}
-              </span>
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-navy-900">{l.title}</h3>
-                <p className="mt-1 text-slate-600">{l.text}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
@@ -310,8 +318,8 @@ function Platform() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="The platform"
-          title="One national health information exchange."
-          intro="National registries form the foundation, an agentic interoperability layer sits at the core, and exchanges and AI run on top. Every participant connects once and reaches everyone else."
+          title="One exchange. Every system connected once."
+          intro="HealthFlow is built as national infrastructure, not an application. National registries form the foundation, an agentic interoperability layer sits at the core, and information exchanges run on top. Each point-of-service system connects once and reaches the whole health system."
         />
 
         <div className="mt-12 grid gap-6 lg:grid-cols-12">
@@ -347,7 +355,7 @@ function Platform() {
         </div>
 
         <div className="mt-14">
-          <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">A transaction on the rail</p>
+          <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase">One prescription across the exchange</p>
           <ol className="mt-4 grid gap-3 sm:grid-cols-5">
             {flow.map((f, i) => (
               <li key={f.step} className="relative rounded-xl border border-slate-200 p-4">
@@ -370,7 +378,7 @@ function Platform() {
 
 function Solutions() {
   const [filter, setFilter] = React.useState('All')
-  const groups = ['All', 'Exchange', 'Registry', 'AI']
+  const groups = ['All', 'Registry', 'Exchange', 'AI']
   const shown = filter === 'All' ? solutions : solutions.filter((s) => s.group === filter)
 
   return (
@@ -379,8 +387,8 @@ function Solutions() {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Solutions"
-            title="Exchanges, registries and AI on one rail."
-            intro="Each module works on its own and gets stronger with the others: the same identities, facility IDs and audit trail run across all of them."
+            title="Registries, exchanges and AI on one national backbone."
+            intro="Each component works on its own and gets stronger with the others: the same identities, facility IDs, consent and audit trail run across all of them."
           />
           <div className="flex flex-wrap gap-2" role="tablist">
             {groups.map((g) => (
@@ -399,7 +407,32 @@ function Solutions() {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {(filter === 'All' || filter === 'Exchange') && (
+          <article className="mt-12 grid gap-8 rounded-2xl bg-navy-900 p-8 text-white lg:grid-cols-5 lg:p-10">
+            <div className="lg:col-span-3">
+              <div className="flex items-center gap-3">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold text-navy-950">
+                  <Network className="h-6 w-6" />
+                </span>
+                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-gold-light">{hip.code}</span>
+              </div>
+              <h3 className="mt-5 font-serif text-2xl font-semibold">{hip.title}</h3>
+              <p dir="rtl" lang="ar" className="mt-1 font-arabic text-sm text-slate-400">
+                {hip.ar}
+              </p>
+              <p className="mt-4 text-slate-300">{hip.text}</p>
+            </div>
+            <ul className="space-y-3 self-center lg:col-span-2">
+              {hip.points.map((p) => (
+                <li key={p} className="flex items-start gap-2 text-sm text-slate-200">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-teal-light" /> {p}
+                </li>
+              ))}
+            </ul>
+          </article>
+        )}
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {shown.map((s) => {
             const Icon = solutionIcons[s.key]
             return (
@@ -432,23 +465,46 @@ function Solutions() {
 }
 
 function AIEngine() {
+  const [tab, setTab] = React.useState('hie')
+  const tabs = [
+    { id: 'hie', label: 'Interoperability agents', items: hieAgents },
+    { id: 'claims', label: 'Claims agents', items: agents },
+  ]
+  const current = tabs.find((t) => t.id === tab)
+
   return (
     <section id="ai" className="bg-navy-950 py-20 text-white sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            dark
-            eyebrow="The AI engine"
-            title="Every claim reviewed in seconds. Every decision still the payer's."
-            intro="A multi-agent adjudication engine, orchestrated with LangGraph over Kafka, already runs on the HFCX rail in production."
-          />
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-teal-light/40 px-4 py-1.5 text-xs font-semibold tracking-widest text-teal-light uppercase">
-            <Sparkles className="h-3.5 w-3.5" /> In production
-          </span>
+        <SectionHeading
+          dark
+          eyebrow="Governed AI"
+          title="AI agents at the core of the exchange, under human authority."
+          intro="Specialist agents resolve identities, map terminologies and convert legacy records as data moves across the exchange, and review every claim in seconds. Arabic language models run inside Egypt, and no patient data goes to external APIs."
+        />
+
+        <div className="mt-10 flex flex-wrap gap-2" role="tablist">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={tab === t.id}
+              onClick={() => setTab(t.id)}
+              className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
+                tab === t.id ? 'bg-gold text-navy-950' : 'border border-white/20 text-slate-300 hover:text-white'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+          {tab === 'claims' && (
+            <span className="inline-flex items-center gap-2 rounded-full border border-teal-light/40 px-4 py-1.5 text-xs font-semibold tracking-widest text-teal-light uppercase">
+              <Sparkles className="h-3.5 w-3.5" /> In production on HFCX
+            </span>
+          )}
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {agents.map((a) => (
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {current.items.map((a) => (
             <div key={a.n} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
               <p className="font-serif text-2xl font-bold text-gold-light">{a.n}</p>
               <h3 className="mt-2 text-lg font-semibold">{a.title}</h3>
@@ -467,8 +523,9 @@ function AIEngine() {
           ))}
         </div>
         <p className="mt-8 max-w-3xl text-sm text-slate-400">
-          Before go-live, the engine is proven in shadow mode: 6–12 months of de-identified claims are replayed and
-          each recommendation is compared with the decision the payer actually made. Payments are never touched.
+          Existing deterministic mediators keep running as the fallback: agents extend them and never bypass them. For
+          claims, the engine is proven in shadow mode against 6–12 months of de-identified history before it advises
+          on a single live payment.
         </p>
       </div>
     </section>
@@ -483,7 +540,7 @@ function Impact() {
           center
           eyebrow="Who we serve"
           title="Built for every participant in the ecosystem."
-          intro="Insurers are onboarded through federation standards. Providers and pharmacies follow because their payers route claims and prescriptions through the rail, and regulators get oversight from day one."
+          intro="Government sets policy and standards, and HealthFlow provides and operates the platform under a public-private partnership. Every participant connects through the same exchange."
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stakeholders.map((s, i) => {
@@ -517,8 +574,8 @@ function WhyNow() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Why now"
-          title="Egypt's regulatory window is open."
-          intro="For the first time, every authority that touches health financing is moving in the same direction: digitisation, interoperability and open infrastructure."
+          title="A national mandate for connected health."
+          intro="Digital Egypt 2030 and Universal Health Insurance Law No. 2 of 2018 commit Egypt to a connected health system. For the first time, every authority involved is moving in the same direction: digitisation, interoperability and open infrastructure."
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {regulators.map((r) => (
@@ -540,7 +597,7 @@ function Traction() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Progress"
-          title="The rails are in production, not on a roadmap."
+          title="The exchange is in production, not on a roadmap."
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {milestones.map((m) => (
@@ -655,10 +712,10 @@ function CTA({ onContact }) {
     <section className="bg-navy-900 py-20 text-white">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <Network className="mx-auto h-10 w-10 text-gold-light" />
-        <h2 className="mt-6 font-serif text-3xl font-bold sm:text-4xl">Close the blind spot. Join the rail.</h2>
+        <h2 className="mt-6 font-serif text-3xl font-bold sm:text-4xl">Connect once. Reach the whole health system.</h2>
         <p className="mt-4 text-lg text-slate-300">
-          We work with insurers, TPAs, providers, pharmacies, regulators and investors. Tell us what you are building
-          and we will show you how HealthFlow fits.
+          We work with government, regulators, hospitals, pharmacies, laboratories, insurers and technology
+          partners. Tell us what you need to connect, and we will show you how it fits on the exchange.
         </p>
         <button
           onClick={onContact}
@@ -681,8 +738,8 @@ function Footer() {
             <img src={healthflowLogo} alt="HealthFlow" className="h-10 w-auto" />
           </span>
           <p className="mt-4 max-w-md text-sm">
-            HealthFlow Group builds Egypt&apos;s open health-insurance infrastructure: national registries, claims and
-            prescription exchanges, and governed AI for a secure, efficient and compliant healthcare ecosystem.
+            HealthFlow Group builds Egypt&apos;s national health information exchange infrastructure: national
+            registries, an interoperability core, prescription and claims exchanges, and governed AI.
           </p>
         </div>
         <div>
@@ -724,7 +781,7 @@ function Footer() {
 }
 
 function ContactDialog({ open, onClose }) {
-  const [form, setForm] = React.useState({ name: '', email: '', company: '', role: 'Insurer / TPA', message: '' })
+  const [form, setForm] = React.useState({ name: '', email: '', company: '', role: 'Government / regulator', message: '' })
   const [sent, setSent] = React.useState(false)
 
   React.useEffect(() => {
@@ -804,7 +861,7 @@ function ContactDialog({ open, onClose }) {
             <label className="block text-sm font-medium text-slate-700">
               I am a
               <select name="role" value={form.role} onChange={update} className={field}>
-                {['Insurer / TPA', 'Hospital / clinic', 'Pharmacy', 'Regulator / government', 'Investor', 'Technology partner', 'Other'].map(
+                {['Government / regulator', 'Hospital / clinic', 'Insurer / TPA', 'Pharmacy', 'Investor', 'Technology partner', 'Other'].map(
                   (r) => (
                     <option key={r}>{r}</option>
                   ),
